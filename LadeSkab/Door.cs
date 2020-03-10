@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LadeSkab
 {
-    public class Class1
+    class Door
     {
     }
 }
