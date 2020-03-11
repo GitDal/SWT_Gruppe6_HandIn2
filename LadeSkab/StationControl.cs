@@ -19,7 +19,9 @@ namespace LadeSkab
 
         // Her mangler flere member variable
         private LadeskabState _state;
-        
+
+        private IDoor _door;
+        private IIdentificationKey _reader;
         private IChargeControl _charger;
         private IDisplay _display;
         private ILogger _logger;
@@ -31,8 +33,44 @@ namespace LadeSkab
         // Her mangler constructor
         StationControl()
         {
-            // Impl ?
+            // Default
+            Door = new Door();
+            Reader = new RFIDReader();
+            Charger = new USBCharger();
+            Display = new Display();
+            Logger = new LogFile();
+
         }
+
+        // Property injection
+        #region Properties
+
+        public IDoor Door
+        {
+            private get { return _door; }
+            set { _door = value; }
+        }
+        public IIdentificationKey Reader
+        {
+            private get { return _reader; }
+            set { _reader = value; }
+        }
+        public IChargeControl Charger
+        {
+            private get { return _charger; }
+            set { _charger = value; }
+        }
+        public IDisplay Display
+        {
+            private get { return _display; }
+            set { _display = value; }
+        }
+        public ILogger Logger
+        {
+            private get { return _logger; }
+            set { _logger = value; }
+        }
+        #endregion
 
         #region Event Handlers
 

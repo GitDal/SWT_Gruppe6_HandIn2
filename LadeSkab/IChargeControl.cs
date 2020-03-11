@@ -8,8 +8,6 @@ namespace LadeSkab
 {
     public interface IChargeControl
     {
-        void TelephoneConnected();
-
         // Event triggered on new current value
         event EventHandler<CurrentEventArgs> CurrentValueEvent;
 
@@ -18,6 +16,8 @@ namespace LadeSkab
 
         // Require connection status of the phone
         bool IsConnected { get; }
+
+        void TelephoneConnected();
 
         // Start charging
         void StartCharge();

@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace LadeSkab
 {
-    public class Display : IDisplay
+    public interface IIdentificationKey
     {
-        public void Show(string msg)
-        {
-            Console.WriteLine(msg);
-        }
     }
 }
