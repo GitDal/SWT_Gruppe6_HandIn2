@@ -8,6 +8,13 @@ namespace LadeSkab
 {
     public class DoorEventArgs : EventArgs
     {
-        public string DoorStatus { set; get; }
+
+
+        public enum DoorState
+        {
+            Open,
+            Closed
+        };
+        public DoorState DoorStatus { set; get; }
     }
 }

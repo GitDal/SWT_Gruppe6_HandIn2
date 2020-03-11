@@ -19,12 +19,22 @@ namespace LadeSkab
 
         // Her mangler flere member variable
         private LadeskabState _state;
+        
         private IChargeControl _charger;
+        private IDisplay _display;
+        private ILogger _logger;
+
         private int _oldId;
 
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Her mangler constructor
+        StationControl()
+        {
+            // Impl ?
+        }
+
+        #region Event Handlers
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
         private void RfidDetected(int id)
@@ -81,5 +91,16 @@ namespace LadeSkab
         }
 
         // Her mangler de andre trigger handlere
+        private void DoorOpened()
+        {
+
+        }
+
+        private void DoorClosed()
+        {
+
+        }
+
+        #endregion
     }
 }
