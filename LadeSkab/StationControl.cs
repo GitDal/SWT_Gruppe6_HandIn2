@@ -38,7 +38,9 @@ namespace LadeSkab
             Reader = new RFIDReader();
             Charger = new USBCharger();
             Display = new Display();
-            Logger = new LogFile();
+            Logger = new LogFile(logFile);
+
+            Door.DoorStatusChanged +=
 
         }
 
@@ -129,6 +131,16 @@ namespace LadeSkab
         }
 
         // Her mangler de andre trigger handlere
+        private void DoorStatusChangedHandler(object sender, DoorEventArgs e)
+        {
+            // SKal måske afhænge af LadeSkabState???
+
+            if(e.DoorStatus == DoorEventArgs.DoorState.Open)
+                DoorOpened();
+            else
+                DoorClosed();
+        }
+
         private void DoorOpened()
         {
 
