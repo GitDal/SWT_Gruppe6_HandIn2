@@ -9,5 +9,7 @@ namespace LadeSkab
     public interface IDoor
     {
         event EventHandler<DoorEventArgs> DoorStatusChanged;
+        void LockDoor();
+        void UnlockDoor();
     }
 }
