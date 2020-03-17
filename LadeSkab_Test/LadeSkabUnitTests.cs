@@ -30,7 +30,8 @@ namespace LadeSkab_Test
             _uut.OnDoorClose();
             _receivedEventArgs = null;
             _uut.OnDoorOpen();
-            Assert.That(_receivedEventArgs.DoorStatus, Is.EqualTo(DoorEventArgs.DoorState.Open));
+            if (_receivedEventArgs != null)
+                Assert.That(_receivedEventArgs.DoorStatus, Is.EqualTo(DoorEventArgs.DoorState.Open));
         }
 
         [Test]
@@ -39,7 +40,8 @@ namespace LadeSkab_Test
             _uut.OnDoorOpen();
             _receivedEventArgs = null;
             _uut.OnDoorClose();
-            Assert.That(_receivedEventArgs.DoorStatus, Is.EqualTo(DoorEventArgs.DoorState.Closed));
+            if (_receivedEventArgs != null)
+                Assert.That(_receivedEventArgs.DoorStatus, Is.EqualTo(DoorEventArgs.DoorState.Closed));
         }
 
         [Test]
