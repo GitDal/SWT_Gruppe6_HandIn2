@@ -42,7 +42,7 @@ namespace LadeSkab
             Console.WriteLine("Door unlocked");
         }
 
-        public void OpenDoor()
+        public void OnDoorOpen()
         {
             if (_lock == LockState.Locked)
             {
@@ -54,7 +54,7 @@ namespace LadeSkab
             OnDoorStatusChange(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open});
         }
 
-        public void CloseDoor()
+        public void OnDoorClose()
         {
             if (_state == DoorState.Closed) return;
             _state = DoorState.Closed;

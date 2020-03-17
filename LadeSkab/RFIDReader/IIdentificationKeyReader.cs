@@ -9,6 +9,6 @@ namespace LadeSkab
     public interface IIdentificationKeyReader<TIdType>
     {
         event EventHandler<TIdType> IdDetectedEvent;
-        void DetectId(TIdType id);
+        void OnIdRead(TIdType id);
     }
 }

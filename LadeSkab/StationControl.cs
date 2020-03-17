@@ -31,7 +31,7 @@ namespace LadeSkab
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Her mangler constructor
-        StationControl()
+        public StationControl()
         {
             // Default
             Door = new Door();
@@ -40,10 +40,11 @@ namespace LadeSkab
             Display = new Display();
             Logger = new LogFile(logFile);
 
-            Door.DoorStatusChanged += HandleDoorStatusChanged;
-            Reader.IdDetectedEvent += RfidDetected;
+            Door.DoorStatusChanged += HandleDoorStatusChangedEvent;
+            Reader.IdDetectedEvent += HandleRfidDetectedEvent;
             Charger.CurrentValueEvent += HandleCurrentChangedEvent;
 
+            _state = LadeskabState.Available;
         }
 
 
@@ -80,7 +81,7 @@ namespace LadeSkab
         #region Event Handlers
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
-        private void RfidDetected(object sender, int id)
+        private void HandleRfidDetectedEvent(object sender, int id)
         {
             switch (_state)
             {
@@ -143,7 +144,7 @@ namespace LadeSkab
         }
 
         // Her mangler de andre trigger handlere
-        private void HandleDoorStatusChanged(object sender, DoorEventArgs e)
+        private void HandleDoorStatusChangedEvent(object sender, DoorEventArgs e)
         {
             // SKal måske afhænge af LadeSkabState???
             switch (e.DoorStatus)
@@ -162,12 +163,12 @@ namespace LadeSkab
 
         private void DoorOpened()
         {
-
+            Display.Show("Tilslut telefon");
         }
 
         private void DoorClosed()
         {
-
+            Display.Show("Indlæs RFID");
         }
 
         void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)

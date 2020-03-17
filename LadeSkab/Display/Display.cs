@@ -10,6 +10,7 @@ namespace LadeSkab
     {
         public void Show(string msg)
         {
+            Console.WriteLine("Shown on display: ");
             Console.WriteLine(msg);
         }
     }
