@@ -128,15 +128,6 @@ namespace LadeSkab
             }
         }
 
-        public void ConnectPhone()
-        {
-            Charger.TelephoneConnected(true);
-        }
-        public void DisconnectPhone()
-        {
-            Charger.TelephoneConnected(false);
-        }
-
         // Her mangler de andre trigger handlere
         private void HandleDoorStatusChangedEvent(object sender, DoorEventArgs e)
         {
