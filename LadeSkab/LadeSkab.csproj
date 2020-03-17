@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="USBCharger\ChargeControl.cs" />
     <Compile Include="USBCharger\CurrentEventArgs.cs" />
     <Compile Include="Display\Display.cs" />
     <Compile Include="Door\Door.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="RFIDReader\IIdentificationKeyReader.cs" />
     <Compile Include="RFIDReader\RFIDReader.cs" />
     <Compile Include="StationControl.cs" />
+    <Compile Include="USBCharger\IUSBCharger.cs" />
     <Compile Include="USBCharger\USBCharger.cs" />
   </ItemGroup>
   <ItemGroup />

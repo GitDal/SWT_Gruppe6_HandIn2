@@ -7,7 +7,7 @@ using System.Timers;
 
 namespace LadeSkab
 {
-    public class USBCharger : IChargeControl
+    public class USBCharger : IUSBCharger
     {
         private const double MaxCurrent = 500.0; // mA
         private const double FullyChargedCurrent = 2.5; // mA
@@ -18,8 +18,7 @@ namespace LadeSkab
         public event EventHandler<CurrentEventArgs> CurrentValueEvent;
 
         public double CurrentValue { get; private set; }
-
-        public bool IsConnected { get; private set; }
+        public bool Connected{ get; private set; }
 
         private bool _overload;
         private bool _charging;
@@ -29,7 +28,7 @@ namespace LadeSkab
         public USBCharger()
         {
             CurrentValue = 0.0;
-            IsConnected = true;
+            Connected = true;
             _overload = false;
 
             _timer = new System.Timers.Timer();
@@ -44,17 +43,17 @@ namespace LadeSkab
             if (_charging)
             {
                 _ticksSinceStart++;
-                if (IsConnected && !_overload)
+                if (Connected && !_overload)
                 {
                     double newValue = MaxCurrent -
                                       _ticksSinceStart * (MaxCurrent - FullyChargedCurrent) / (ChargeTimeMinutes * 60 * 1000 / CurrentTickInterval);
                     CurrentValue = Math.Max(newValue, FullyChargedCurrent);
                 }
-                else if (IsConnected && _overload)
+                else if (Connected && _overload)
                 {
                     CurrentValue = OverloadCurrent;
                 }
-                else if (!IsConnected)
+                else if (!Connected)
                 {
                     CurrentValue = 0.0;
                 }
@@ -63,12 +62,12 @@ namespace LadeSkab
             }
         }
 
-        public void TelephoneConnected(bool connected)
+        public void SimulateConnected(bool connected)
         {
-            IsConnected = connected;
+            Connected = connected;
         }
 
-        public void Overload(bool overload)
+        public void SimulateOverload(bool overload)
         {
             _overload = overload;
         }
@@ -79,15 +78,15 @@ namespace LadeSkab
             // Ignore if already charging
             if (!_charging)
             {
-                if (IsConnected && !_overload)
+                if (Connected && !_overload)
                 {
                     CurrentValue = 500;
                 }
-                else if (IsConnected && _overload)
+                else if (Connected && _overload)
                 {
                     CurrentValue = OverloadCurrent;
                 }
-                else if (!IsConnected)
+                else if (!Connected)
                 {
                     CurrentValue = 0.0;
                 }

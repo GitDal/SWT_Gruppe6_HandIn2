@@ -22,7 +22,7 @@ namespace LadeSkab
 
         private IDoor _door;
         private IIdentificationKeyReader<int> _reader;
-        private IChargeControl _charger;
+        private IChargeControl _chargeControl;
         private IDisplay _display;
         private ILogger _logger;
 
@@ -36,13 +36,9 @@ namespace LadeSkab
             // Default
             Door = new Door();
             Reader = new RFIDReader();
-            Charger = new USBCharger();
+            ChargeControl = new ChargeControl();
             Display = new Display();
             Logger = new LogFile(logFile);
-
-            Door.DoorStatusChanged += HandleDoorStatusChangedEvent;
-            Reader.IdDetectedEvent += HandleRfidDetectedEvent;
-            Charger.CurrentValueEvent += HandleCurrentChangedEvent;
 
             _state = LadeskabState.Available;
         }
@@ -54,17 +50,28 @@ namespace LadeSkab
         public IDoor Door
         {
             private get { return _door; }
-            set { _door = value; }
+            set
+            {
+                _door = value;
+                _door.DoorStatusChanged += HandleDoorStatusChangedEvent;
+            }
         }
         public IIdentificationKeyReader<int> Reader
         {
             private get { return _reader; }
-            set { _reader = value; }
+            set
+            {
+                _reader = value;
+                _reader.IdDetectedEvent += HandleRfidDetectedEvent;
+            }
         }
-        public IChargeControl Charger
+        public IChargeControl ChargeControl
         {
-            private get { return _charger; }
-            set { _charger = value; }
+            private get { return _chargeControl; }
+            set
+            {
+                _chargeControl = value;
+            }
         }
         public IDisplay Display
         {
@@ -87,10 +94,10 @@ namespace LadeSkab
             {
                 case LadeskabState.Available:
                     // Check for ladeforbindelse
-                    if (_charger.IsConnected)
+                    if (ChargeControl.IsConnected())
                     {
                         _door.LockDoor();
-                        _charger.StartCharge();
+                        ChargeControl.StartCharge();
                         _oldId = id;
                         using (var writer = File.AppendText(logFile))
                         {
@@ -115,7 +122,7 @@ namespace LadeSkab
                     // Check for correct ID
                     if (id == _oldId)
                     {
-                        _charger.StopCharge();
+                        ChargeControl.StopCharge();
                         _door.UnlockDoor();
                         using (var writer = File.AppendText(logFile))
                         {
@@ -160,19 +167,6 @@ namespace LadeSkab
         private void DoorClosed()
         {
             Display.Show("Indlæs RFID");
-        }
-
-        void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)
-        {
-            if(e.Current > 0 && e.Current <= 5)
-                Display.Show("Telefon er fuldt opladt");
-            else if(e.Current > 5 && e.Current <= 500)
-                Display.Show("Telefon Oplades");
-            else if (e.Current > 500)
-            {
-                Charger.StopCharge();
-                Display.Show("Fejl i opladningen - Frakoble telefon øjeblikkeligt");
-            }
         }
 
         #endregion
