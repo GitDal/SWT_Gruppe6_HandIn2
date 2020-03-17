@@ -17,7 +17,7 @@ namespace LadeSkab
         // Require connection status of the phone
         bool IsConnected { get; }
 
-        void TelephoneConnected();
+        void TelephoneConnected(bool connected);
 
         // Start charging
         void StartCharge();
