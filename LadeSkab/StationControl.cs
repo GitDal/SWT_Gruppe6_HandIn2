@@ -21,7 +21,7 @@ namespace LadeSkab
         private LadeskabState _state;
 
         private IDoor _door;
-        private IIdentificationKey _reader;
+        private IIdentificationKeyReader<int> _reader;
         private IChargeControl _charger;
         private IDisplay _display;
         private ILogger _logger;
@@ -52,7 +52,7 @@ namespace LadeSkab
             private get { return _door; }
             set { _door = value; }
         }
-        public IIdentificationKey Reader
+        public IIdentificationKeyReader Reader
         {
             private get { return _reader; }
             set { _reader = value; }

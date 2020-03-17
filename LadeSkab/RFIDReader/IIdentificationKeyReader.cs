@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace LadeSkab
 {
-    public interface IIdentificationKey
+    public interface IIdentificationKeyReader<TIdType>
     {
+        void DetectId(TIdType id);
     }
 }
