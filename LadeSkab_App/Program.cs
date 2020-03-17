@@ -25,7 +25,7 @@ namespace LadeSkab_App
             do
             {
                 string input;
-                System.Console.WriteLine("Indtast E, O, C, R: ");
+                System.Console.WriteLine("Indtast E, O, C, R, P, D: ");
                 input = Console.ReadLine();
                 if (string.IsNullOrEmpty(input)) continue;
 
@@ -49,6 +49,12 @@ namespace LadeSkab_App
 
                         int id = Convert.ToInt32(idString);
                         rfidReader.OnIdRead(id);
+                        break;
+                    case 'P':
+                        charger.TelephoneConnected(true);
+                        break;
+                    case 'D':
+                        charger.TelephoneConnected(false);
                         break;
 
                     default:

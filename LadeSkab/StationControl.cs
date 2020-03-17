@@ -134,15 +134,6 @@ namespace LadeSkab
             }
         }
 
-        public void ConnectPhone()
-        {
-            Charger.TelephoneConnected(true);
-        }
-        public void DisconnectPhone()
-        {
-            Charger.TelephoneConnected(false);
-        }
-
         // Her mangler de andre trigger handlere
         private void HandleDoorStatusChangedEvent(object sender, DoorEventArgs e)
         {
@@ -173,7 +164,15 @@ namespace LadeSkab
 
         void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)
         {
-
+            if(e.Current > 0 && e.Current <= 5)
+                Display.Show("Telefon er fuldt opladt");
+            else if(e.Current > 5 && e.Current <= 500)
+                Display.Show("Telefon Oplades");
+            else if (e.Current > 500)
+            {
+                Charger.StopCharge();
+                Display.Show("Fejl i opladningen - Frakoble telefon øjeblikkeligt");
+            }
         }
 
         #endregion
