@@ -40,7 +40,8 @@ namespace LadeSkab
             Display = new Display();
             Logger = new LogFile(logFile);
 
-            Door.DoorStatusChanged +=
+            Charger.CurrentValueEvent += HandleCurrentChangedEvent;
+            Door.DoorStatusChanged += DoorStatusChangedHandler;
 
         }
 
@@ -130,6 +131,15 @@ namespace LadeSkab
             }
         }
 
+        public void ConnectPhone()
+        {
+            Charger.TelephoneConnected(true);
+        }
+        public void DisconnectPhone()
+        {
+            Charger.TelephoneConnected(false);
+        }
+
         // Her mangler de andre trigger handlere
         private void DoorStatusChangedHandler(object sender, DoorEventArgs e)
         {
@@ -147,6 +157,11 @@ namespace LadeSkab
         }
 
         private void DoorClosed()
+        {
+
+        }
+
+        void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)
         {
 
         }
