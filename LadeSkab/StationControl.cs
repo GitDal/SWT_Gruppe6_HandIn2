@@ -160,12 +160,12 @@ namespace LadeSkab
 
         private void DoorOpened()
         {
-
+            Display.Show("Tilslut telefon");
         }
 
         private void DoorClosed()
         {
-
+            Display.Show("Indlæs RFID");
         }
 
         void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)
