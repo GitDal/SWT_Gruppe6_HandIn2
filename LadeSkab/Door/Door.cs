@@ -14,7 +14,14 @@ namespace LadeSkab
             Closed
         };
 
-        public DoorState state = DoorState.Closed;
+        public enum LockState
+        {
+            Locked,
+            Unlocked
+        };
+
+        public DoorState _state = DoorState.Closed;
+        private LockState _lock = LockState.Unlocked;
 
         public event EventHandler<DoorEventArgs> DoorStatusChanged;
 
@@ -25,26 +32,32 @@ namespace LadeSkab
 
         public void LockDoor()
         {
+            _lock = LockState.Locked;
             Console.WriteLine("Door locked");
         }
 
         public void UnlockDoor()
         {
+            _lock = LockState.Unlocked;
             Console.WriteLine("Door unlocked");
         }
 
         public void OpenDoor()
         {
-            if (state == DoorState.Open) return;
-            state = DoorState.Open;
+            if (_lock == LockState.Locked)
+            {
+                Console.WriteLine("Door open called on locked door");
+                return;
+            }
+            if (_state == DoorState.Open) return;
+            _state = DoorState.Open;
             OnDoorStatusChange(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open});
-            
         }
 
         public void CloseDoor()
         {
-            if (state == DoorState.Closed) return;
-            state = DoorState.Closed;
+            if (_state == DoorState.Closed) return;
+            _state = DoorState.Closed;
             OnDoorStatusChange(new DoorEventArgs{DoorStatus = DoorEventArgs.DoorState.Closed});
         }
 

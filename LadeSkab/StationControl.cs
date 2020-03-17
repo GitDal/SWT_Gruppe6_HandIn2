@@ -40,9 +40,11 @@ namespace LadeSkab
             Display = new Display();
             Logger = new LogFile(logFile);
 
-            Door.DoorStatusChanged += 
+            Charger.CurrentValueEvent += HandleCurrentChangedEvent;
+            Door.DoorStatusChanged += HandleDoorStatusChanged;
 
         }
+
 
         // Property injection
         #region Properties
@@ -52,7 +54,7 @@ namespace LadeSkab
             private get { return _door; }
             set { _door = value; }
         }
-        public IIdentificationKeyReader<int> Reader
+        public IIdentificationKeyReader Reader
         {
             private get { return _reader; }
             set { _reader = value; }
@@ -130,15 +132,31 @@ namespace LadeSkab
             }
         }
 
+        public void ConnectPhone()
+        {
+            Charger.TelephoneConnected(true);
+        }
+        public void DisconnectPhone()
+        {
+            Charger.TelephoneConnected(false);
+        }
+
         // Her mangler de andre trigger handlere
-        private void DoorStatusChangedHandler(object sender, DoorEventArgs e)
+        private void HandleDoorStatusChanged(object sender, DoorEventArgs e)
         {
             // SKal måske afhænge af LadeSkabState???
-
-            if(e.DoorStatus == DoorEventArgs.DoorState.Open)
-                DoorOpened();
-            else
-                DoorClosed();
+            switch (e.DoorStatus)
+            {
+                case DoorEventArgs.DoorState.Closed:
+                    DoorClosed();
+                    break;
+                case DoorEventArgs.DoorState.Open:
+                    DoorOpened();
+                    break;
+                default:
+                    Console.WriteLine("Invalid DoorStatus received");
+                    break;
+            }
         }
 
         private void DoorOpened()
@@ -147,6 +165,11 @@ namespace LadeSkab
         }
 
         private void DoorClosed()
+        {
+
+        }
+
+        void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)
         {
 
         }
