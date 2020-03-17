@@ -16,6 +16,11 @@ namespace LadeSkab_App
             IIdentificationKeyReader<int> rfidReader = new RFIDReader();
             IChargeControl charger = new USBCharger(); //Mangler at håndtere at man kan connecte og disconnecte telefon
 
+            StationControl ladeSkab = new StationControl();
+            ladeSkab.Door = door;
+            ladeSkab.Reader = rfidReader;
+            ladeSkab.Charger = charger;
+
             bool finish = false;
             do
             {
