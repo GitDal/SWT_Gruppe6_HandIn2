@@ -145,7 +145,6 @@ namespace LadeSkab
         // Her mangler de andre trigger handlere
         private void HandleDoorStatusChangedEvent(object sender, DoorEventArgs e)
         {
-            // SKal måske afhænge af LadeSkabState???
             switch (e.DoorStatus)
             {
                 case DoorEventArgs.DoorState.Closed:
