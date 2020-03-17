@@ -40,9 +40,10 @@ namespace LadeSkab
             Display = new Display();
             Logger = new LogFile(logFile);
 
-            Door.DoorStatusChanged +=
+            Door.DoorStatusChanged += HandleDoorStatusChanged;
 
         }
+
 
         // Property injection
         #region Properties
@@ -131,14 +132,21 @@ namespace LadeSkab
         }
 
         // Her mangler de andre trigger handlere
-        private void DoorStatusChangedHandler(object sender, DoorEventArgs e)
+        private void HandleDoorStatusChanged(object sender, DoorEventArgs e)
         {
             // SKal måske afhænge af LadeSkabState???
-
-            if(e.DoorStatus == DoorEventArgs.DoorState.Open)
-                DoorOpened();
-            else
-                DoorClosed();
+            switch (e.DoorStatus)
+            {
+                case DoorEventArgs.DoorState.Closed:
+                    DoorClosed();
+                    break;
+                case DoorEventArgs.DoorState.Open:
+                    DoorOpened();
+                    break;
+                default:
+                    Console.WriteLine("Invalid DoorStatus received");
+                    break;
+            }
         }
 
         private void DoorOpened()
