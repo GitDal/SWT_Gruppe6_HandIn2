@@ -5,14 +5,17 @@
     <id>UMLClass</id>
     <coordinates>
       <x>592</x>
-      <y>128</y>
+      <y>104</y>
       <w>264</w>
-      <h>112</h>
+      <h>136</h>
     </coordinates>
     <panel_attributes>*Door*
 --
-+ DoorStatusChanged: event
+- _state: DoorState
+- _lock: LockState
 - OnDoorStatusChanged(e: DoorEventArgs): void
+-
++ DoorStatusChanged: event
 + LockDoor(): void
 + UnlockDoor(): void
 + OpenDoor(): void
@@ -290,7 +293,7 @@ Closed</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>896</x>
-      <y>144</y>
+      <y>184</y>
       <w>128</w>
       <h>64</h>
     </coordinates>
@@ -349,7 +352,7 @@ Closed</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>848</x>
-      <y>168</y>
+      <y>208</y>
       <w>64</w>
       <h>24</h>
     </coordinates>
@@ -377,5 +380,31 @@ Closed</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>896</x>
+      <y>96</y>
+      <w>128</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+*LockState*
+--
+Locked
+Unlocked</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>848</x>
+      <y>120</y>
+      <w>64</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
   </element>
 </diagram>
