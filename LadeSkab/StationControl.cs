@@ -143,7 +143,7 @@ namespace LadeSkab
         }
 
         // Her mangler de andre trigger handlere
-        private void HandleDoorStatusChanged(object sender, DoorEventArgs e)
+        private void HandleDoorStatusChangedEvent(object sender, DoorEventArgs e)
         {
             // SKal måske afhænge af LadeSkabState???
             switch (e.DoorStatus)
@@ -162,12 +162,12 @@ namespace LadeSkab
 
         private void DoorOpened()
         {
-
+            Display.Show("Tilslut telefon");
         }
 
         private void DoorClosed()
         {
-
+            Display.Show("Indlæs RFID");
         }
 
         void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)
