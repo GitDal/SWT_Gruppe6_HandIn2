@@ -40,8 +40,10 @@ namespace LadeSkab
             Display = new Display();
             Logger = new LogFile(logFile);
 
+            Door.DoorStatusChanged += HandleDoorStatusChanged;
+            Reader.IdDetectedEvent += RfidDetected;
             Charger.CurrentValueEvent += HandleCurrentChangedEvent;
-            Door.DoorStatusChanged += HandleDoorStatusChangedEvent;
+
         }
 
 
@@ -53,7 +55,7 @@ namespace LadeSkab
             private get { return _door; }
             set { _door = value; }
         }
-        public IIdentificationKeyReader Reader
+        public IIdentificationKeyReader<int> Reader
         {
             private get { return _reader; }
             set { _reader = value; }
@@ -78,7 +80,7 @@ namespace LadeSkab
         #region Event Handlers
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
-        private void RfidDetected(int id)
+        private void RfidDetected(object sender, int id)
         {
             switch (_state)
             {

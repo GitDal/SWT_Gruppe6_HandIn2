@@ -8,11 +8,11 @@ namespace LadeSkab
 {
     public class RFIDReader : IIdentificationKeyReader<int>
     {
-        public event EventHandler<int> RFIDDetected;
+        public event EventHandler<int> IdDetectedEvent;
 
         public void OnIdDetected(int id)
         {
-            RFIDDetected?.Invoke(this, id);
+            IdDetectedEvent?.Invoke(this, id);
         }
 
         public void DetectId(int id)
