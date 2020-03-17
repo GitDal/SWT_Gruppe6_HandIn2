@@ -21,7 +21,7 @@ namespace LadeSkab
         private LadeskabState _state;
 
         private IDoor _door;
-        private IIdentificationKey _reader;
+        private IIdentificationKeyReader<int> _reader;
         private IChargeControl _charger;
         private IDisplay _display;
         private ILogger _logger;
@@ -45,6 +45,7 @@ namespace LadeSkab
 
         }
 
+
         // Property injection
         #region Properties
 
@@ -53,7 +54,7 @@ namespace LadeSkab
             private get { return _door; }
             set { _door = value; }
         }
-        public IIdentificationKey Reader
+        public IIdentificationKeyReader Reader
         {
             private get { return _reader; }
             set { _reader = value; }
@@ -141,14 +142,21 @@ namespace LadeSkab
         }
 
         // Her mangler de andre trigger handlere
-        private void DoorStatusChangedHandler(object sender, DoorEventArgs e)
+        private void HandleDoorStatusChanged(object sender, DoorEventArgs e)
         {
             // SKal måske afhænge af LadeSkabState???
-
-            if(e.DoorStatus == DoorEventArgs.DoorState.Open)
-                DoorOpened();
-            else
-                DoorClosed();
+            switch (e.DoorStatus)
+            {
+                case DoorEventArgs.DoorState.Closed:
+                    DoorClosed();
+                    break;
+                case DoorEventArgs.DoorState.Open:
+                    DoorOpened();
+                    break;
+                default:
+                    Console.WriteLine("Invalid DoorStatus received");
+                    break;
+            }
         }
 
         private void DoorOpened()
