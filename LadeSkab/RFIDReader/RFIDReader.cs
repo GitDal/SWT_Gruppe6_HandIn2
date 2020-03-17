@@ -6,7 +6,28 @@ using System.Threading.Tasks;
 
 namespace LadeSkab
 {
-    public class RFIDReader : IIdentificationKey
+    public class RFIDReader : IIdentificationKeyReader<int>
     {
+        public event EventHandler<int> RFIDDetected;
+
+        public void OnIdDetected(int id)
+        {
+            RFIDDetected?.Invoke(this, id);
+        }
+
+        public void DetectId(int id)
+        {
+            if(IdIsValid((id)))
+                OnIdDetected(id);
+        }
+
+        private bool IdIsValid(int id)
+        {
+            if (id > 0)
+                return true;
+            else
+                return false;
+        }
+
     }
 }
