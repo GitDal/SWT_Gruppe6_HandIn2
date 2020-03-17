@@ -41,20 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurrentEventArgs.cs" />
-    <Compile Include="Display.cs" />
-    <Compile Include="Door.cs" />
-    <Compile Include="DoorEventArgs.cs" />
-    <Compile Include="IDisplay.cs" />
-    <Compile Include="IDoor.cs" />
-    <Compile Include="ILogger.cs" />
-    <Compile Include="IChargeControl.cs" />
-    <Compile Include="LogFile.cs" />
+    <Compile Include="USBCharger\CurrentEventArgs.cs" />
+    <Compile Include="Display\Display.cs" />
+    <Compile Include="Door\Door.cs" />
+    <Compile Include="Door\DoorEventArgs.cs" />
+    <Compile Include="Display\IDisplay.cs" />
+    <Compile Include="Door\IDoor.cs" />
+    <Compile Include="LogFile\ILogger.cs" />
+    <Compile Include="USBCharger\IChargeControl.cs" />
+    <Compile Include="LogFile\LogFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IIdentificationKey.cs" />
-    <Compile Include="RFIDReader.cs" />
+    <Compile Include="RFIDReader\IIdentificationKey.cs" />
+    <Compile Include="RFIDReader\RFIDReader.cs" />
     <Compile Include="StationControl.cs" />
-    <Compile Include="USBCharger.cs" />
+    <Compile Include="USBCharger\USBCharger.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
