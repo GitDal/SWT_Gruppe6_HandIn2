@@ -54,7 +54,7 @@ namespace LadeSkab
             OnDoorStatusChange(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open});
         }
 
-        public void OneDoorClose()
+        public void OnDoorClose()
         {
             if (_state == DoorState.Closed) return;
             _state = DoorState.Closed;
