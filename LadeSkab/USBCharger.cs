@@ -3,42 +3,119 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace LadeSkab
 {
     public class USBCharger : IChargeControl
     {
-        private IDisplay _display;
+        private const double MaxCurrent = 500.0; // mA
+        private const double FullyChargedCurrent = 2.5; // mA
+        private const double OverloadCurrent = 750; // mA
+        private const int ChargeTimeMinutes = 20; // minutes
+        private const int CurrentTickInterval = 250; // ms
+
+        public event EventHandler<CurrentEventArgs> CurrentValueEvent;
+
+        public double CurrentValue { get; private set; }
+
+        public bool IsConnected { get; private set; }
+
+        private bool _overload;
+        private bool _charging;
+        private System.Timers.Timer _timer;
+        private int _ticksSinceStart;
 
         public USBCharger()
         {
+            CurrentValue = 0.0;
+            IsConnected = true;
+            _overload = false;
 
+            _timer = new System.Timers.Timer();
+            _timer.Enabled = false;
+            _timer.Interval = CurrentTickInterval;
+            _timer.Elapsed += TimerOnElapsed;
         }
 
-        public void TelephoneConnected()
+        private void TimerOnElapsed(object sender, ElapsedEventArgs e)
         {
+            // Only execute if charging
+            if (_charging)
+            {
+                _ticksSinceStart++;
+                if (IsConnected && !_overload)
+                {
+                    double newValue = MaxCurrent -
+                                      _ticksSinceStart * (MaxCurrent - FullyChargedCurrent) / (ChargeTimeMinutes * 60 * 1000 / CurrentTickInterval);
+                    CurrentValue = Math.Max(newValue, FullyChargedCurrent);
+                }
+                else if (IsConnected && _overload)
+                {
+                    CurrentValue = OverloadCurrent;
+                }
+                else if (!IsConnected)
+                {
+                    CurrentValue = 0.0;
+                }
 
+                OnNewCurrent();
+            }
+        }
+
+        public void TelephoneConnected(bool connected)
+        {
+            IsConnected = connected;
+        }
+
+        public void Overload(bool overload)
+        {
+            _overload = overload;
         }
 
         // Start charging
         public void StartCharge()
         {
+            // Ignore if already charging
+            if (!_charging)
+            {
+                if (IsConnected && !_overload)
+                {
+                    CurrentValue = 500;
+                }
+                else if (IsConnected && _overload)
+                {
+                    CurrentValue = OverloadCurrent;
+                }
+                else if (!IsConnected)
+                {
+                    CurrentValue = 0.0;
+                }
 
+                OnNewCurrent();
+                _ticksSinceStart = 0;
+
+                _charging = true;
+
+                _timer.Start();
+            }
         }
+
         // Stop charging
         public void StopCharge()
         {
+            _timer.Stop();
 
+            CurrentValue = 0.0;
+            OnNewCurrent();
+
+            _charging = false;
         }
 
-        #region Properties
-
-        public double CurrentValue { get; }
-
-        // Require connection status of the phone
-        public bool IsConnected { get; }
-
-        #endregion
+        private void OnNewCurrent()
+        {
+            CurrentValueEvent?.Invoke(this, new CurrentEventArgs() { Current = this.CurrentValue });
+        }
 
     }
 }
