@@ -54,7 +54,7 @@ namespace LadeSkab
             private get { return _door; }
             set { _door = value; }
         }
-        public IIdentificationKeyReader Reader
+        public IIdentificationKeyReader<int> Reader
         {
             private get { return _reader; }
             set { _reader = value; }
