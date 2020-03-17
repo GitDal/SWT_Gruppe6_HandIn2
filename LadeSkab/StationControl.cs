@@ -40,7 +40,7 @@ namespace LadeSkab
             Display = new Display();
             Logger = new LogFile(logFile);
 
-            Door.DoorStatusChanged += HandleDoorStatusChanged;
+            Door.DoorStatusChanged += HandleDoorStatusChangedEvent;
             Reader.IdDetectedEvent += RfidDetected;
             Charger.CurrentValueEvent += HandleCurrentChangedEvent;
 
