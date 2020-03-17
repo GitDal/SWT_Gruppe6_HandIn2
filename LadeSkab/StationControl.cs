@@ -41,7 +41,7 @@ namespace LadeSkab
             Logger = new LogFile(logFile);
 
             Charger.CurrentValueEvent += HandleCurrentChangedEvent;
-            Door.DoorStatusChanged += DoorStatusChangedHandler;
+            Door.DoorStatusChanged += HandleDoorStatusChanged;
 
         }
 
