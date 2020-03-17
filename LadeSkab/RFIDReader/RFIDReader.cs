@@ -15,7 +15,7 @@ namespace LadeSkab
             IdDetectedEvent?.Invoke(this, id);
         }
 
-        public void DetectId(int id)
+        public void OnIdRead(int id)
         {
             if(IdIsValid((id)))
                 OnIdDetected(id);

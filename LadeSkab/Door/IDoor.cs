@@ -11,7 +11,7 @@ namespace LadeSkab
         event EventHandler<DoorEventArgs> DoorStatusChanged;
         void LockDoor();
         void UnlockDoor();
-        void OpenDoor();
-        void CloseDoor();
+        void OnDoorOpen();
+        void OnDoorClose();
     }
 }
