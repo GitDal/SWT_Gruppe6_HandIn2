@@ -41,8 +41,7 @@ namespace LadeSkab
             Logger = new LogFile(logFile);
 
             Charger.CurrentValueEvent += HandleCurrentChangedEvent;
-            Door.DoorStatusChanged += HandleDoorStatusChanged;
-
+            Door.DoorStatusChanged += HandleDoorStatusChangedEvent;
         }
 
 
@@ -142,7 +141,7 @@ namespace LadeSkab
         }
 
         // Her mangler de andre trigger handlere
-        private void HandleDoorStatusChanged(object sender, DoorEventArgs e)
+        private void HandleDoorStatusChangedEvent(object sender, DoorEventArgs e)
         {
             // SKal måske afhænge af LadeSkabState???
             switch (e.DoorStatus)
