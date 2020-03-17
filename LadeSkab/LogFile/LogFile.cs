@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LadeSkab
 {
-    public class LogFile: ILogger
+    public class LogFile : ILogger
     {
         private string path;
         private string fileName;
@@ -18,8 +18,9 @@ namespace LadeSkab
             path = Directory.GetCurrentDirectory() + @"\" + fileName;
         }
 
-        public void LogDoorLocked(string id)
+        public void LogDoorLocked(int id)
         {
+
             if (!File.Exists(path))
             {
                 using (StreamWriter logWriterInit = File.CreateText(path))
@@ -38,7 +39,7 @@ namespace LadeSkab
 
         }
 
-        public void LogDoorUnlocked(string id)
+        public void LogDoorUnlocked(int id)
         {
             if (!File.Exists(path))
             {

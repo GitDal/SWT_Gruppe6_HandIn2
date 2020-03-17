@@ -8,7 +8,7 @@ namespace LadeSkab
 {
     public interface ILogger
     {
-        void LogDoorLocked(string id);
-        void LogDoorUnlocked(string id);
+        void LogDoorLocked(int id);
+        void LogDoorUnlocked(int id);
     }
 }
