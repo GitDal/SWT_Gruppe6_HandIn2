@@ -48,15 +48,29 @@ namespace LadeSkab_Test
         public void OnCloseDoor_DoorClosedFromClosed_NoEventFired()
         {
             _uut.OnDoorClose();
+            _uut.UnlockDoor();
             _receivedEventArgs = null;
             _uut.OnDoorClose();
             Assert.That(_receivedEventArgs, Is.Null);
         }
 
+
+
         [Test]
         public void OnOpenDoor_DoorOpenFromOpen_NoEventFired()
         {
             _uut.OnDoorOpen();
+            _uut.UnlockDoor();
+            _receivedEventArgs = null;
+            _uut.OnDoorOpen();
+            Assert.That(_receivedEventArgs, Is.Null);
+        }
+
+        [Test]
+        public void OnOpenDoor_DoorOpenOnLockedDoor_NoEventFired()
+        {
+            _uut.OnDoorClose();
+            _uut.LockDoor();
             _receivedEventArgs = null;
             _uut.OnDoorOpen();
             Assert.That(_receivedEventArgs, Is.Null);

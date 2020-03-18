@@ -35,40 +35,39 @@ namespace LadeSkab_App
             Console.WriteLine("C:\tLuk Dør");
             Console.WriteLine("P:\tTilslut Telefon");
             Console.WriteLine("D:\tFrakobl Telefon");
-            Console.WriteLine("R:\tScan RFID");
+            Console.WriteLine("R:\tScan RFID\n");
 
             bool finish = false;
             do
             {
-                string input;
-                input = Console.ReadLine();
-                if (string.IsNullOrEmpty(input)) continue;
+                ConsoleKey input;
+                input = Console.ReadKey(true).Key;
 
-                switch (input[0])
+                switch (input)
                 {
-                    case 'E':
+                    case ConsoleKey.E:
                         finish = true;
                         break;
 
-                    case 'O':
+                    case ConsoleKey.O:
                         door.OnDoorOpen();
                         break;
 
-                    case 'C':
+                    case ConsoleKey.C:
                         door.OnDoorClose();
                         break;
 
-                    case 'R':
+                    case ConsoleKey.R:
                         System.Console.WriteLine("Indtast RFID id: ");
                         string idString = System.Console.ReadLine();
 
                         int id = Convert.ToInt32(idString);
                         rfidReader.OnIdRead(id);
                         break;
-                    case 'P':
+                    case ConsoleKey.P:
                         charger.SimulateConnected(true);
                         break;
-                    case 'D':
+                    case ConsoleKey.D:
                         charger.SimulateConnected(false);
                         break;
                     default:
