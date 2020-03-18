@@ -33,13 +33,13 @@ namespace LadeSkab
         public void LockDoor()
         {
             _lock = LockState.Locked;
-            Console.WriteLine("Door locked");
+            Console.WriteLine("Dør låst");
         }
 
         public void UnlockDoor()
         {
             _lock = LockState.Unlocked;
-            Console.WriteLine("Door unlocked");
+            Console.WriteLine("Dør låst op");
         }
 
         public void OnDoorOpen()
