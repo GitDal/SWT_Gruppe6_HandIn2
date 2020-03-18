@@ -80,6 +80,56 @@ namespace LadeSkab_Test
     [TestFixture]
     public class StationControlUnitTests
     {
+        private StationControl _uut;
+        private IDoor _doorSubject;
+        private IDisplay _mockDisplay;
+
+
+        [SetUp]
+        public void Setup()
+        {
+            _doorSubject = Substitute.For<IDoor>();
+            _mockDisplay = Substitute.For<IDisplay>();
+            
+            StationControl _uut = new StationControl();
+            _uut.Door = _doorSubject;
+            _uut.Display = _mockDisplay;
+        }
+
+        //*******************************************************
+        //*******************************************************
+        //Jeg (Jeppe) tillader mig at udkommentere disse test,
+        //da Stationcontrol ikke længere ubetinget kalder show
+        //funktionen ved door open og close
+        //*******************************************************
+        //*******************************************************
+
+        /*
+        [Test]
+        public void HandleDoorStatusChangedEvent_DoorOpenEventReceived_DisplayShowMessageCalled()
+        {
+            _doorSubject.DoorStatusChanged +=
+                Raise.EventWith(new DoorEventArgs {DoorStatus = DoorEventArgs.DoorState.Open});
+
+            _mockDisplay.Received().Show(Arg.Any<string>());
+        }
+
+
+        
+        [Test]
+        public void HandleDoorStatusChangedEvent_DoorClosedEventReceived_DisplayShowMessageCalled()
+        {
+            _doorSubject.DoorStatusChanged +=
+                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Closed});
+
+            _mockDisplay.Received().Show(Arg.Any<string>());
+        }
+        */
+    }
+
+    [TestFixture]
+    public class ChargeControlUnitTests
+    {
         //[SetUp]
         //public class 
 
@@ -117,8 +167,16 @@ namespace LadeSkab_Test
         }
 
         [Test]
+        public void SimulateConnected_ReturnsConnected()
+        {
+            _uut.SimulateConnected(true);
+            Assert.That(_uut.Connected, Is.True);
+        }
+
+        [Test]
         public void Started_WaitSomeTime_ReceivedSeveralValues()
         {
+            _uut.SimulateConnected(true);
             int numValues = 0;
             _uut.CurrentValueEvent += (o, args) => numValues++;
 
@@ -132,6 +190,7 @@ namespace LadeSkab_Test
         [Test]
         public void Started_WaitSomeTime_ReceivedChangedValue()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
@@ -145,6 +204,7 @@ namespace LadeSkab_Test
         [Test]
         public void StartedNoEventReceiver_WaitSomeTime_PropertyChangedValue()
         {
+            _uut.SimulateConnected(true);
             _uut.StartCharge();
 
             System.Threading.Thread.Sleep(300);
@@ -155,6 +215,7 @@ namespace LadeSkab_Test
         [Test]
         public void Started_WaitSomeTime_PropertyMatchesReceivedValue()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
@@ -197,6 +258,7 @@ namespace LadeSkab_Test
         [Test]
         public void Started_SimulateDisconnected_ReceivesZero()
         {
+            _uut.SimulateConnected(true);
             ManualResetEvent pause = new ManualResetEvent(false);
             double lastValue = 1000;
 
@@ -248,6 +310,7 @@ namespace LadeSkab_Test
         [Test]
         public void SimulateDisconnected_Start_ReceivesZeroValueImmediately()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
 
             _uut.CurrentValueEvent += (o, args) =>
@@ -269,6 +332,7 @@ namespace LadeSkab_Test
         [Test]
         public void StopCharge_IsCharging_ReceivesZeroValue()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
@@ -284,6 +348,7 @@ namespace LadeSkab_Test
         [Test]
         public void StopCharge_IsCharging_PropertyIsZero()
         {
+            _uut.SimulateConnected(true);
             _uut.StartCharge();
 
             System.Threading.Thread.Sleep(300);
@@ -296,6 +361,7 @@ namespace LadeSkab_Test
         [Test]
         public void StopCharge_IsCharging_ReceivesNoMoreValues()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
