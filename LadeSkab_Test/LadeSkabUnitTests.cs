@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -355,6 +356,32 @@ namespace LadeSkab_Test
             _uut.OnIdRead(invalidId);
 
             Assert.That(_receivedEventArgs, Is.Null); // Null => No event fired
+        }
+    }
+
+    [TestFixture]
+    public class DisplayUnitTests
+    {
+        private Display _uut;
+        private StringWriter _output;
+
+        [SetUp]
+        public void Setup()
+        {
+            _uut = new Display();
+
+            _output = new StringWriter();
+            Console.SetOut(_output);
+        }
+
+        [TestCase("")]
+        [TestCase("123")]
+        [TestCase("string")]
+        public void Show_CalledWithMessage_MessageIsWrittenCorrectlyOnScreen(string msg)
+        {
+            _uut.Show(msg);
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + msg + "'\r\n"));
         }
     }
 
