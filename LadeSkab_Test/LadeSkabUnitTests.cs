@@ -87,6 +87,16 @@ namespace LadeSkab_Test
     }
 
     [TestFixture]
+    public class ChargeControlUnitTests
+    {
+        //[SetUp]
+        //public class 
+
+
+
+    }
+
+    [TestFixture]
     public class TestUsbCharger
     {
         private USBCharger _uut;
