@@ -10,7 +10,7 @@ namespace LadeSkab
     {
         public event EventHandler<int> IdDetectedEvent;
 
-        public void OnIdDetected(int id)
+        private void OnIdDetected(int id)
         {
             IdDetectedEvent?.Invoke(this, id);
         }
