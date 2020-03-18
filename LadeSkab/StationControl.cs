@@ -100,12 +100,12 @@ namespace LadeSkab
                         _oldId = id;
                         _logger.LogDoorLocked(id);
 
-                        Console.WriteLine("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
+                        Display.Show("Ladeskab optaget: Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
                         _state = LadeskabState.Locked;
                     }
                     else
                     {
-                        Console.WriteLine("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
+                        Display.Show("Tilslutningsfejl: Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
                     }
 
                     break;
@@ -122,12 +122,12 @@ namespace LadeSkab
                         _door.UnlockDoor();
                         _logger.LogDoorUnlocked(id);
 
-                        Console.WriteLine("Tag din telefon ud af skabet og luk døren");
+                        Display.Show("Fjern telefon");
                         _state = LadeskabState.Available;
                     }
                     else
                     {
-                        Console.WriteLine("Forkert RFID tag");
+                        Display.Show("Forkert RFID tag");
                     }
 
                     break;
