@@ -11,6 +11,17 @@ namespace LadeSkab
         private IDisplay _display;
         private IUSBCharger _charger;
 
+        //CharginState er skabt, til at sikre at ChargeControl ikke spammer Displayet med beskeder, men kun gør det hver gang en ny state opstår
+        public enum ChargingState
+        {
+            Charging,
+            Charged,
+            Overload,
+            NoConnection
+        };
+
+        private ChargingState _chargingState = ChargingState.NoConnection;
+
         public ChargeControl()
         {
             Display = new Display();
@@ -35,6 +46,7 @@ namespace LadeSkab
         // Start charging
         public void StartCharge()
         {
+
             Charger.StartCharge();
         }
 
@@ -52,14 +64,32 @@ namespace LadeSkab
         void HandleCurrentChangedEvent(object sender, CurrentEventArgs e)
         {
             if (e.Current > 0 && e.Current <= 5)
-                Display.Show("Telefon er fuldt opladt");
+            {
+                if (_chargingState != ChargingState.Charged)
+                {
+                    Display.Show("Telefon er fuldt opladt");
+                    _chargingState = ChargingState.Charged;
+                }
+            }
             else if (e.Current > 5 && e.Current <= 500)
-                Display.Show("Telefon Oplades");
+            {
+                if (_chargingState != ChargingState.Charging)
+                {
+                    Display.Show("Telefon Oplades");
+                    _chargingState = ChargingState.Charging;
+                }
+            }
             else if (e.Current > 500)
             {
-                StopCharge();
-                Display.Show("Fejl i opladningen - Frakoble telefon øjeblikkeligt");
+                if (_chargingState != ChargingState.Overload)
+                {
+                    StopCharge();
+                    Display.Show("Fejl i opladningen - Frakoble telefon øjeblikkeligt");
+                    _chargingState = ChargingState.Overload;
+                }
             }
+            else
+                _chargingState = ChargingState.NoConnection;
         }
     }
 }

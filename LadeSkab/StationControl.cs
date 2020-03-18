@@ -155,13 +155,11 @@ namespace LadeSkab
 
         private void DoorOpened()
         {
-            Display.Show("Dør åben");
             Display.Show("Tilslut telefon");
         }
 
         private void DoorClosed()
         {
-            Display.Show("Dør lukket");
             Display.Show("Indlæs RFID");
         }
 
