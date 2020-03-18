@@ -155,12 +155,21 @@ namespace LadeSkab
 
         private void DoorOpened()
         {
-            Display.Show("Tilslut telefon");
+            _state = LadeskabState.DoorOpen;
+            Display.Show("Please connect device.");
         }
 
         private void DoorClosed()
         {
-            Display.Show("Indlæs RFID");
+            switch (_state)
+            {
+                case LadeskabState.Available:
+                    Display.Show("Provide RFID to lock.");
+                    break;
+                default:
+                    Display.Show("My progammer has failed. (Check DoorClosed in StationControl)");
+                    break;
+            }
         }
 
         #endregion
