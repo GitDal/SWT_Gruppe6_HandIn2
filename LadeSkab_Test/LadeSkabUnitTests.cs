@@ -104,7 +104,14 @@ namespace LadeSkab_Test
             _mockDisplay.Received().Show(Arg.Any<string>());
         }
 
+        [Test]
+        public void HandleDoorStatusChangedEvent_DoorClosedEventReceived_DisplayShowMessageCalled()
+        {
+            _doorSubject.DoorStatusChanged +=
+                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Closed});
 
+            _mockDisplay.Received().Show(Arg.Any<string>());
+        }
     }
 
     [TestFixture]
