@@ -148,7 +148,7 @@ namespace LadeSkab
                     DoorOpened();
                     break;
                 default:
-                    Console.WriteLine("Invalid DoorStatus received"); // Skal måske være dansk?
+                    Console.WriteLine("Invalid DoorStatus received."); // Skal måske være dansk?
                     break;
             }
         }
