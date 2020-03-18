@@ -54,8 +54,6 @@ namespace LadeSkab_Test
             Assert.That(_receivedEventArgs, Is.Null);
         }
 
-
-
         [Test]
         public void OnOpenDoor_DoorOpenFromOpen_NoEventFired()
         {
@@ -76,4 +74,17 @@ namespace LadeSkab_Test
             Assert.That(_receivedEventArgs, Is.Null);
         }
     }
+
+    [TestFixture]
+    public class StationControlUnitTests
+    {
+        //[SetUp]
+        //public class 
+
+
+
+    }
+
+
+
 }
