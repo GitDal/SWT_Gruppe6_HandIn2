@@ -95,6 +95,15 @@ namespace LadeSkab_Test
             _uut.Display = _mockDisplay;
         }
 
+        //*******************************************************
+        //*******************************************************
+        //Jeg (Jeppe) tillader mig at udkommentere disse test,
+        //da Stationcontrol ikke længere ubetinget kalder show
+        //funktionen ved door open og close
+        //*******************************************************
+        //*******************************************************
+
+        /*
         [Test]
         public void HandleDoorStatusChangedEvent_DoorOpenEventReceived_DisplayShowMessageCalled()
         {
@@ -104,6 +113,8 @@ namespace LadeSkab_Test
             _mockDisplay.Received().Show(Arg.Any<string>());
         }
 
+
+        
         [Test]
         public void HandleDoorStatusChangedEvent_DoorClosedEventReceived_DisplayShowMessageCalled()
         {
@@ -112,6 +123,7 @@ namespace LadeSkab_Test
 
             _mockDisplay.Received().Show(Arg.Any<string>());
         }
+        */
     }
 
     [TestFixture]
