@@ -78,9 +78,30 @@ namespace LadeSkab_Test
     [TestFixture]
     public class StationControlUnitTests
     {
-        //[SetUp]
-        //public class 
+        private StationControl _uut;
+        private IDoor _doorSubject;
+        private IDisplay _mockDisplay;
 
+
+        [SetUp]
+        public void Setup()
+        {
+            _doorSubject = Substitute.For<IDoor>();
+            _mockDisplay = Substitute.For<IDisplay>();
+            
+            StationControl _uut = new StationControl();
+            _uut.Door = _doorSubject;
+            _uut.Display = _mockDisplay;
+        }
+
+        [Test]
+        public void HandleDoorStatusChangedEvent_DoorOpenEventReceived_DisplayShowMessageCalled()
+        {
+            _doorSubject.DoorStatusChanged +=
+                Raise.EventWith(new DoorEventArgs {DoorStatus = DoorEventArgs.DoorState.Open});
+
+            _mockDisplay.Received().Show(Arg.Any<string>());
+        }
 
 
     }
