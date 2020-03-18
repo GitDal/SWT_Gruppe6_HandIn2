@@ -88,7 +88,6 @@ namespace LadeSkab
 
         #region Event Handlers
 
-        // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
         private void HandleRfidDetectedEvent(object sender, int id)
         {
             switch (_state)
@@ -162,15 +161,8 @@ namespace LadeSkab
 
         private void DoorClosed()
         {
-            switch (_state)
-            {
-                case LadeskabState.Available:
-                    Display.Show("Provide RFID to lock.");
-                    break;
-                default:
-                    Display.Show("My progammer has failed. (Check DoorClosed in StationControl)");
-                    break;
-            }
+            _state = LadeskabState.Available;
+            Display.Show("Provide RFID to lock.");
         }
 
         #endregion
