@@ -35,7 +35,7 @@ namespace LadeSkab
         // Start charging
         public void StartCharge()
         {
-            Charger.StopCharge();
+            Charger.StartCharge();
         }
 
         // Stop charging

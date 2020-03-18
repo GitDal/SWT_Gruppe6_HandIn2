@@ -17,14 +17,17 @@ namespace LadeSkab_App
             //ikke i interfacet, så vi er nødt til at have adgang til det faktiske objekt direkt, for at dette kan lade sig gøre.
             IDoor door = new Door();
             IIdentificationKeyReader<int> rfidReader = new RFIDReader();
+            
+            Display display = new Display();
             USBCharger charger = new USBCharger();
-            IChargeControl chargeControl = new ChargeControl();
-            chargeControl.Charger = charger;
+            ChargeControl chargeControl = new ChargeControl {Charger = charger, Display = display};
+
 
             StationControl ladeSkab = new StationControl();
             ladeSkab.Door = door;
             ladeSkab.Reader = rfidReader;
             ladeSkab.ChargeControl = chargeControl;
+            ladeSkab.Display = display;
 
             System.Console.WriteLine("Indtast:");
             Console.WriteLine("E:\tAfslut Program");
