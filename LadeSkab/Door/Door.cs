@@ -60,6 +60,5 @@ namespace LadeSkab
             _state = DoorState.Closed;
             OnDoorStatusChange(new DoorEventArgs{DoorStatus = DoorEventArgs.DoorState.Closed});
         }
-
     }
 }
