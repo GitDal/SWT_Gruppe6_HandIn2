@@ -11,16 +11,11 @@ namespace LadeSkab_App
     {
         static void Main(string[] args)
         {
-            // Assemble your system here from all the classes
-            //OKAY SÅ JEG (JEPPE) ER I TVIVL HER
-            //Må vi ikke godt oprette objekterne direkte? På den måde kan vi eksempelvis benytte charger funktionen SimulateConnected - Denne er
-            //ikke i interfacet, så vi er nødt til at have adgang til det faktiske objekt direkt, for at dette kan lade sig gøre.
             IDoor door = new Door();
             IIdentificationKeyReader<int> rfidReader = new RFIDReader();
-            
-            Display display = new Display();
+            IDisplay display = new Display();
             USBCharger charger = new USBCharger();
-            ChargeControl chargeControl = new ChargeControl {Charger = charger, Display = display};
+            IChargeControl chargeControl = new ChargeControl {Charger = charger, Display = display};
 
 
             StationControl ladeSkab = new StationControl();
@@ -29,12 +24,12 @@ namespace LadeSkab_App
             ladeSkab.ChargeControl = chargeControl;
             ladeSkab.Display = display;
 
-            System.Console.WriteLine("Indtast:");
-            Console.WriteLine("E:\tAfslut Program");
-            Console.WriteLine("O:\tÅben Dør");
-            Console.WriteLine("C:\tLuk Dør");
-            Console.WriteLine("P:\tTilslut Telefon");
-            Console.WriteLine("D:\tFrakobl Telefon");
+            System.Console.WriteLine("Enter:");
+            Console.WriteLine("E:\tClose Program");
+            Console.WriteLine("O:\tOpen Door");
+            Console.WriteLine("C:\tClose Door");
+            Console.WriteLine("P:\tConnect device");
+            Console.WriteLine("D:\tDisconnect device");
             Console.WriteLine("R:\tScan RFID\n");
 
             bool finish = false;
@@ -58,7 +53,7 @@ namespace LadeSkab_App
                         break;
 
                     case ConsoleKey.R:
-                        System.Console.WriteLine("Indtast RFID id: ");
+                        System.Console.WriteLine("Enter RFID id: ");
                         string idString = System.Console.ReadLine();
 
                         int id = Convert.ToInt32(idString);

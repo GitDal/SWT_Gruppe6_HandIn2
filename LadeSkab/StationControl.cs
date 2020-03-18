@@ -123,12 +123,12 @@ namespace LadeSkab
                         _door.UnlockDoor();
                         _logger.LogDoorUnlocked(id);
 
-                        Display.Show("Remove device");
+                        Display.Show("Remove device.");
                         _state = LadeskabState.Available;
                     }
                     else
                     {
-                        Display.Show("Wrong RFID tag");
+                        Display.Show("Wrong RFID tag. Use your RFID tag to try again.");
                     }
 
                     break;
