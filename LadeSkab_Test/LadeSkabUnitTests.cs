@@ -116,8 +116,16 @@ namespace LadeSkab_Test
         }
 
         [Test]
+        public void SimulateConnected_ReturnsConnected()
+        {
+            _uut.SimulateConnected(true);
+            Assert.That(_uut.Connected, Is.True);
+        }
+
+        [Test]
         public void Started_WaitSomeTime_ReceivedSeveralValues()
         {
+            _uut.SimulateConnected(true);
             int numValues = 0;
             _uut.CurrentValueEvent += (o, args) => numValues++;
 
@@ -131,6 +139,7 @@ namespace LadeSkab_Test
         [Test]
         public void Started_WaitSomeTime_ReceivedChangedValue()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
@@ -144,6 +153,7 @@ namespace LadeSkab_Test
         [Test]
         public void StartedNoEventReceiver_WaitSomeTime_PropertyChangedValue()
         {
+            _uut.SimulateConnected(true);
             _uut.StartCharge();
 
             System.Threading.Thread.Sleep(300);
@@ -154,6 +164,7 @@ namespace LadeSkab_Test
         [Test]
         public void Started_WaitSomeTime_PropertyMatchesReceivedValue()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
@@ -196,6 +207,7 @@ namespace LadeSkab_Test
         [Test]
         public void Started_SimulateDisconnected_ReceivesZero()
         {
+            _uut.SimulateConnected(true);
             ManualResetEvent pause = new ManualResetEvent(false);
             double lastValue = 1000;
 
@@ -247,6 +259,7 @@ namespace LadeSkab_Test
         [Test]
         public void SimulateDisconnected_Start_ReceivesZeroValueImmediately()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
 
             _uut.CurrentValueEvent += (o, args) =>
@@ -268,6 +281,7 @@ namespace LadeSkab_Test
         [Test]
         public void StopCharge_IsCharging_ReceivesZeroValue()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
@@ -283,6 +297,7 @@ namespace LadeSkab_Test
         [Test]
         public void StopCharge_IsCharging_PropertyIsZero()
         {
+            _uut.SimulateConnected(true);
             _uut.StartCharge();
 
             System.Threading.Thread.Sleep(300);
@@ -295,6 +310,7 @@ namespace LadeSkab_Test
         [Test]
         public void StopCharge_IsCharging_ReceivesNoMoreValues()
         {
+            _uut.SimulateConnected(true);
             double lastValue = 1000;
             _uut.CurrentValueEvent += (o, args) => lastValue = args.Current;
 
