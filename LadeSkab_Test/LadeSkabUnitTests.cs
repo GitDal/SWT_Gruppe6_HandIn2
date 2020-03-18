@@ -85,6 +85,52 @@ namespace LadeSkab_Test
 
     }
 
+    [TestFixture]
+    public class RFIDReaderUnitTests
+    {
+        private RFIDReader _uut;
+        private Nullable<int> _receivedEventArgs;
+
+        [SetUp]
+        public void Setup()
+        {
+            _receivedEventArgs = null;
+
+            _uut = new RFIDReader();
+
+            _uut.IdDetectedEvent += (o, args) => { _receivedEventArgs = args; };
+        }
+
+        [Test]
+        public void OnIdRead_ValidIdRead_EventFired()
+        {
+            int validId = 123;
+            _uut.OnIdRead(validId);
+
+            Assert.That(_receivedEventArgs, Is.Not.Null);
+        }
+
+        [Test]
+        public void OnIdRead_ValidIdRead_CorrectValidIdReceived()
+        {
+            int validId = 123;
+            _uut.OnIdRead(validId);
+
+            Assert.That(_receivedEventArgs, Is.EqualTo(validId));
+        }
+
+        [TestCase(-100)]
+        [TestCase(0)]
+        public void OnIdRead_DifferentInvalidIdReads_NoEventFired(int invalidId)
+        {
+            _uut.OnIdRead(invalidId);
+
+            Assert.That(_receivedEventArgs, Is.Null); // Null => No event fired
+        }
+    }
+
+
+
 
 
 }
