@@ -16,8 +16,6 @@ namespace LadeSkab
             Locked,
             DoorOpen
         };
-
-        //Check for Jenkins
         // Her mangler flere member variable
         private LadeskabState _state;
 
