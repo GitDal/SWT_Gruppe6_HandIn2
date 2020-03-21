@@ -13,7 +13,7 @@ namespace LadeSkab
         void ShowRemoveDevice();
         void ShowProvideId();
         void ShowWrongId();
-        void ShowFullyCharger();
+        void ShowFullyCharged();
         void ShowDeviceCharging();
         void ShowOverload();
         void ShowConnectionError();

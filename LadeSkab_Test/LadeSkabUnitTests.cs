@@ -155,21 +155,21 @@ namespace LadeSkab_Test
         
         private ChargeControl _uut;
         private IUSBCharger _mockCharger;
+        private IDisplay _mockDisplay;
 
         [SetUp]
         public void SetUp()
         {
             _mockCharger = Substitute.For<IUSBCharger>();
+            _mockDisplay = Substitute.For<IDisplay>();
 
             _uut = new ChargeControl
             {
-                Charger = _mockCharger
+                Charger = _mockCharger,
+                Display = _mockDisplay
             };
-
-            
         }
 
-        //Denne test er nok forkert - Jeg skal egentlig bare kunne teste for at IsConnected returnere Connected fra charger, om den så er true eller false
         [Test]
         public void IsConnected_NoFunctionCalled_ReturnsSameValueAsProperty()
         {
@@ -191,6 +191,14 @@ namespace LadeSkab_Test
 
             _mockCharger.Connected.Returns(false);
             Assert.That(_uut.IsConnected(), Is.False);
+
+        }
+
+        [Test]
+        public void TESTTEST()
+        {
+
+            _mockCharger.CurrentValueEvent
 
         }
 
