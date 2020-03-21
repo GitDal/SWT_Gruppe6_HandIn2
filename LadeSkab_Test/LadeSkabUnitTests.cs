@@ -159,7 +159,7 @@ namespace LadeSkab_Test
         [SetUp]
         public void SetUp()
         {
-            _mockCharger = Substitute.For<USBCharger>();
+            _mockCharger = Substitute.For<IUSBCharger>();
 
             _uut = new ChargeControl
             {
@@ -177,20 +177,21 @@ namespace LadeSkab_Test
         }
 
         [Test]
-        public void TESTUNDERWAYNEEDSNAME()
+        public void IsConnected_ChargerIsConnected_ReturnsTrue()
         {
-            //_mockCharger.Connected.Returns(true);
-            //Assert.That(_uut.IsConnected(), Is.EqualTo(_mockCharger.Connected));
 
-
-
-            /*
             _mockCharger.Connected.Returns(true);
+            Assert.That(_uut.IsConnected(), Is.True);
+            
+        }
 
-            var result = _uut.IsConnected();
+        [Test]
+        public void IsConnected_ChargerIsDisconnected_ReturnsFalse()
+        {
 
-            Assert.That(result,Is.EqualTo(_mockCharger.Connected));
-            */
+            _mockCharger.Connected.Returns(false);
+            Assert.That(_uut.IsConnected(), Is.False);
+
         }
 
 
@@ -216,9 +217,9 @@ namespace LadeSkab_Test
         }
 
         [Test]
-        public void StartCharge_ChargerReceivesNoStartCall()
+        public void StopCharge_ChargerReceivesNoStartCall()
         {
-            _uut.StartCharge();
+            _uut.StopCharge();
             _mockCharger.DidNotReceive().StartCharge();
         }
 
