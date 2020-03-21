@@ -59,7 +59,6 @@ namespace LadeSkab
         }
         public IIdentificationKeyReader<int> Reader
         {
-            private get { return _reader; }
             set
             {
                 _reader = value;
