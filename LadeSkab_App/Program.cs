@@ -55,8 +55,19 @@ namespace LadeSkab_App
                     case ConsoleKey.R:
                         System.Console.WriteLine("Enter RFID id: ");
                         string idString = System.Console.ReadLine();
+                        int id;
 
-                        int id = Convert.ToInt32(idString);
+                        try
+                        {
+                            id = Convert.ToInt32(idString);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Console.WriteLine(ex.Message);
+                            System.Console.WriteLine("Please try again...");
+                            break;
+                        }
+
                         rfidReader.OnIdRead(id);
                         break;
                     case ConsoleKey.P:
