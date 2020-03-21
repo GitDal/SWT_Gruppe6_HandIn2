@@ -100,7 +100,7 @@ namespace LadeSkab_Test
             _mockDisplay = Substitute.For<IDisplay>();
             _mockChargeControl = Substitute.For<IChargeControl>();
             _mockLogger = Substitute.For<ILogger>();
-            
+
             StationControl _uut = new StationControl();
             _uut.Door = _doorSubject;
             _uut.Reader = _readerSubject;
@@ -224,7 +224,7 @@ namespace LadeSkab_Test
                 Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open });
 
 
-            _mockDisplay.DidNotReceive().Show(Arg.Any<string>());
+            _mockDisplay.DidNotReceive().ShowConnectDevice();
         }
 
         [Test]
@@ -246,7 +246,7 @@ namespace LadeSkab_Test
             _doorSubject.DoorStatusChanged +=
                 Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Closed });
 
-            _mockDisplay.DidNotReceive().Show(Arg.Any<string>());
+            _mockDisplay.DidNotReceive().ShowProvideId();
         }
 
         #endregion
