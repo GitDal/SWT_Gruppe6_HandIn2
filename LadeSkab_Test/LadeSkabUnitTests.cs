@@ -620,8 +620,7 @@ namespace LadeSkab_Test
         [TearDown]
         public void TearDown()
         {
-            if(_uut.FileExist())
-                _uut.DeleteFile(); //Denne teardown sikrer at filen kun eksisterer i testen
+            _uut.DeleteFile(); //Denne teardown sikrer at filen kun eksisterer i testen
         }
 
         [Test]
@@ -656,6 +655,70 @@ namespace LadeSkab_Test
             //Assert
             Assert.That(lastMessage, Is.EqualTo(text));
         }
+
+        [Test]
+        public void LogDoorLocked_RunWhenNoFileExists_CreatesFile()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorLocked(1);
+
+            Assert.That(_uut.FileExist, Is.True);
+        }
+
+        [Test]
+        public void LogDoorLocked_RunWhenNoFileExists_AppendsText()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorLocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+        [Test]
+        public void LogDoorLocked_RunWhenFileExists_AppendsText()
+        {
+            _uut.LogDoorLocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+
+
+        [Test]
+        public void LogDoorUnlocked_RunWhenNoFileExists_CreatesFile()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorUnlocked(1);
+
+            Assert.That(_uut.FileExist, Is.True);
+        }
+
+        [Test]
+        public void LogDoorUnlocked_RunWhenNoFileExists_AppendsText()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorUnlocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+        [Test]
+        public void LogDoorUnlocked_RunWhenFileExists_AppendsText()
+        {
+            _uut.LogDoorUnlocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+
     }
 
 
