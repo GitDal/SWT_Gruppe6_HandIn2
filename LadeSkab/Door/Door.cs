@@ -51,6 +51,7 @@ namespace LadeSkab
             }
             if (_state == DoorState.Open) return;
             _state = DoorState.Open;
+            Console.WriteLine("Door opened");
             OnDoorStatusChange(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open});
         }
 
@@ -58,6 +59,7 @@ namespace LadeSkab
         {
             if (_state == DoorState.Closed) return;
             _state = DoorState.Closed;
+            Console.WriteLine("Door closed");
             OnDoorStatusChange(new DoorEventArgs{DoorStatus = DoorEventArgs.DoorState.Closed});
         }
     }
