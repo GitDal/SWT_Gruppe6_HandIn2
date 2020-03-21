@@ -9,8 +9,9 @@ namespace LadeSkab
 {
     public class LogFile : ILogger
     {
-        private string path;
-        private string fileName;
+        public string path { get; }
+        public string fileName { get; }
+        public string LastMessage { get; private set; } //This is both for functionality and testing purposes
 
         public StreamWriter sw { get; set; }
 
@@ -24,8 +25,27 @@ namespace LadeSkab
         public void CreateFile()
         {
             sw = File.CreateText(path);
-            sw.WriteLine("Logging of door openings and closings");
+            LastMessage = "Logging of door openings and closings";
+            sw.WriteLine(LastMessage);
             sw.Close();
+        }
+
+        public void DeleteFile()
+        {
+            try
+            {
+                File.Delete(path);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public bool FileExist()
+        {
+            return File.Exists(path);
         }
 
         public void AppendTextToFile(string text)
@@ -37,15 +57,17 @@ namespace LadeSkab
 
         public void LogDoorLocked(int id)
         {
-            if(!File.Exists(path))
+            if(!FileExist())
                 CreateFile();
-            AppendTextToFile($"ID: {id} - Locked door at: {DateTime.Now.ToString()}");
+            LastMessage = $"ID: {id} - Locked door at: {DateTime.Now.ToString()}";
+            AppendTextToFile(LastMessage);
         }
 
         public void LogDoorUnlocked(int id)
         {
-            if (!File.Exists(path))
+            if (!FileExist())
                 CreateFile();
+            LastMessage = $"ID: {id} - Unlocked door at: {DateTime.Now.ToString()}";
             AppendTextToFile($"ID: {id} - Unlocked door at: {DateTime.Now.ToString()}");
         }
     }

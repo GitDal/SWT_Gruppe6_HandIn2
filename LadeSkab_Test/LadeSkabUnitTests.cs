@@ -604,6 +604,61 @@ namespace LadeSkab_Test
     }
 
 
+    [TestFixture]
+    public class LogFileUnitTests
+    {
+        private LogFile _uut;
+        private StringWriter _output;
+
+        [SetUp]
+        public void Setup()
+        {
+            _uut = new LogFile("testFile");
+            _uut.CreateFile();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if(_uut.FileExist())
+                _uut.DeleteFile();
+        }
+
+        [Test]
+        public void FileExists_CreateFileCalled_ReturnsTrue()
+        {
+            Assert.That(_uut.FileExist(),Is.True);
+        }
+
+        [Test]
+        public void FileExists_DeleteFileCalled_ReturnsFalse()
+        {
+            _uut.DeleteFile();
+            Assert.That(_uut.FileExist(), Is.False);
+        }
+
+        [Test]
+        public void CreateFile_ReadLastMessageFromFile_ReturnsExpectedMessage()
+        {
+            var lastMessage = File.ReadLines(_uut.path).Last();
+            //Assert
+            Assert.That(lastMessage,Is.EqualTo(_uut.LastMessage));
+        }
+
+        [Test]
+        public void AppendText_ReadLastMessageFromFile_ReturnsExpectedMessage()
+        {
+            //Act
+            var text = "SomeText";
+            _uut.AppendTextToFile(text);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            //Assert
+            Assert.That(lastMessage, Is.EqualTo(text));
+        }
+    }
+
+
 
 
 
