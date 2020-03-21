@@ -85,6 +85,7 @@ namespace LadeSkab_Test
         private StationControl _uut;
         private IDoor _doorSubject;
         private IDisplay _mockDisplay;
+        private IChargeControl _mockChargeControl;
 
 
         [SetUp]
@@ -92,24 +93,19 @@ namespace LadeSkab_Test
         {
             _doorSubject = Substitute.For<IDoor>();
             _mockDisplay = Substitute.For<IDisplay>();
+            _mockChargeControl = Substitute.For<IChargeControl>();
             
             StationControl _uut = new StationControl();
             _uut.Door = _doorSubject;
             _uut.Display = _mockDisplay;
+            _uut.ChargeControl = _mockChargeControl;
         }
 
-        //*******************************************************
-        //*******************************************************
-        //Jeg (Jeppe) tillader mig at udkommentere disse test,
-        //da Stationcontrol ikke længere ubetinget kalder show
-        //funktionen ved door open og close
-        //*******************************************************
-        //*******************************************************
-
-        /*
         [Test]
-        public void HandleDoorStatusChangedEvent_DoorOpenEventReceived_DisplayShowMessageCalled()
+        public void HandleDoorStatusChangedEvent_DoorOpenEventReceivedDeviceNotConnected_ShowInDisplayCalled()
         {
+            _mockChargeControl.IsConnected().Returns(false);
+
             _doorSubject.DoorStatusChanged +=
                 Raise.EventWith(new DoorEventArgs {DoorStatus = DoorEventArgs.DoorState.Open});
 
@@ -117,16 +113,40 @@ namespace LadeSkab_Test
         }
 
 
-        
         [Test]
-        public void HandleDoorStatusChangedEvent_DoorClosedEventReceived_DisplayShowMessageCalled()
+        public void HandleDoorStatusChangedEvent_DoorOpenEventReceivedDeviceConnected_ShowInDisplayNotCalled()
         {
+
+            _mockChargeControl.IsConnected().Returns(true);
+
             _doorSubject.DoorStatusChanged +=
-                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Closed});
+                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open });
+
+
+            _mockDisplay.DidNotReceive().Show(Arg.Any<string>());
+        }
+
+        [Test]
+        public void HandleDoorStatusChangedEvent_DoorClosedEventReceivedDeviceConnected_ShowInDisplayCalled()
+        {
+            _mockChargeControl.IsConnected().Returns(true);
+
+            _doorSubject.DoorStatusChanged +=
+                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Closed });
 
             _mockDisplay.Received().Show(Arg.Any<string>());
         }
-        */
+
+        [Test]
+        public void HandleDoorStatusChangedEvent_DoorClosedEventReceivedDeviceNotConnected_ShowInDisplayNotCalled()
+        {
+            _mockChargeControl.IsConnected().Returns(false);
+
+            _doorSubject.DoorStatusChanged +=
+                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Closed });
+
+            _mockDisplay.DidNotReceive().Show(Arg.Any<string>());
+        }
     }
 
     [TestFixture]
