@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using NUnit.Framework;
 using NSubstitute;
 using LadeSkab;
 using NSubstitute.Core.Arguments;
 using NSubstitute.ReceivedExtensions;
+using NUnit.Framework.Internal;
+using ILogger = LadeSkab.ILogger;
 
 namespace LadeSkab_Test
 {
@@ -84,22 +87,120 @@ namespace LadeSkab_Test
     {
         private StationControl _uut;
         private IDoor _doorSubject;
+        private IIdentificationKeyReader<int> _readerSubject;
         private IDisplay _mockDisplay;
         private IChargeControl _mockChargeControl;
-
+        private ILogger _mockLogger;
 
         [SetUp]
         public void Setup()
         {
             _doorSubject = Substitute.For<IDoor>();
+            _readerSubject = Substitute.For<IIdentificationKeyReader<int>>();
             _mockDisplay = Substitute.For<IDisplay>();
             _mockChargeControl = Substitute.For<IChargeControl>();
+            _mockLogger = Substitute.For<ILogger>();
             
             StationControl _uut = new StationControl();
             _uut.Door = _doorSubject;
+            _uut.Reader = _readerSubject;
             _uut.Display = _mockDisplay;
             _uut.ChargeControl = _mockChargeControl;
+            _uut.Logger = _mockLogger;
         }
+
+        #region TESTS: HandleRfidDetectedEvent
+
+        [Test]
+        public void HandleRfidDetectedEvent_LadeskabStateAvailable_DeviceConnected_IdDetectedEventReceived_CorrectCalls()
+        {
+            // ARRANGE 
+            // (Default: LadeskabState == Available)
+            _mockChargeControl.IsConnected().Returns(true);
+
+            // ACT
+            int id = 123;
+            _readerSubject.IdDetectedEvent += Raise.Event<EventHandler<int>>(this, id);
+
+            // ASSERT
+            _doorSubject.Received().LockDoor();
+            _mockChargeControl.Received().StartCharge();
+            _mockLogger.Received().LogDoorLocked(id);
+            _mockDisplay.Received().ShowOccupied();
+        }
+
+        [Test]
+        public void HandleRfidDetectedEvent_LadeskabStateAvailable_DeviceNotConnected_IdDetectedEventReceived_ErrorOnDisplayCalled()
+        {
+            // ARRANGE
+            // (Default: LadeskabState == Available)
+            _mockChargeControl.IsConnected().Returns(false);
+
+            // ACT
+            _readerSubject.IdDetectedEvent += Raise.Event<EventHandler<int>>(this, 123);
+
+            // ASSERT
+            _mockDisplay.Received().ShowConnectionError();
+        }
+
+        [Test]
+        public void HandleRfidDetectedEvent_LadeskabStateDoorOpen_IdDetectedEventReceived_NothingHappened()
+        {
+            // ARRANGE
+            _doorSubject.DoorStatusChanged +=
+                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open }); // => LadeskabState = DoorOpen
+
+            // ACT
+            int id = 123;
+            _readerSubject.IdDetectedEvent += Raise.Event<EventHandler<int>>(this, id);
+
+            // ASSERT (Nothing happened)
+            _mockDisplay.DidNotReceive().ShowOccupied();
+            _mockDisplay.DidNotReceive().ShowConnectionError();
+            _mockDisplay.DidNotReceive().ShowRemoveDevice();
+            _mockDisplay.DidNotReceive().ShowWrongId();
+        }
+
+        [Test]
+        public void HandleRfidDetectedEvent_LadeskabStateLocked_IdDetectedEventReceivedWithWrongId_ErrorOnDisplayCalled()
+        {
+            // ARRANGE
+            _mockChargeControl.IsConnected().Returns(true);
+
+            int oldId = 123;
+            _readerSubject.IdDetectedEvent += Raise.Event<EventHandler<int>>(this, oldId); // => LadeskabState == locked, oldId = 123
+
+            // ACT
+            int id = 321;
+            _readerSubject.IdDetectedEvent += Raise.Event<EventHandler<int>>(this, id);
+
+            // ASSERT
+            _mockDisplay.Received().ShowWrongId(); // oldId != id
+        }
+
+        [Test]
+        public void HandleRfidDetectedEvent_LadeskabStateLocked_IdDetectedEventReceivedWithCorrectId_CorrectCalls()
+        {
+            // ARRANGE
+            _mockChargeControl.IsConnected().Returns(true);
+
+            int oldId = 123;
+            _readerSubject.IdDetectedEvent += Raise.Event<EventHandler<int>>(this, oldId); // => LadeskabState == locked, oldId = 123
+
+            // ACT
+            int id = 123;
+            _readerSubject.IdDetectedEvent += Raise.Event<EventHandler<int>>(this, id);
+
+            // ASSERT (Correct Calls)
+            _mockChargeControl.Received().StopCharge();
+            _doorSubject.Received().UnlockDoor();
+            _mockLogger.LogDoorUnlocked(id);
+            _mockDisplay.Received().ShowRemoveDevice();
+        }
+
+        #endregion
+
+        #region TESTS: HandleDoorStatusChangedEvent
 
         [Test]
         public void HandleDoorStatusChangedEvent_DoorOpenEventReceivedDeviceNotConnected_ShowInDisplayCalled()
@@ -107,7 +208,7 @@ namespace LadeSkab_Test
             _mockChargeControl.IsConnected().Returns(false);
 
             _doorSubject.DoorStatusChanged +=
-                Raise.EventWith(new DoorEventArgs {DoorStatus = DoorEventArgs.DoorState.Open});
+                Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Open });
 
             _mockDisplay.Received().ShowConnectDevice();
         }
@@ -147,6 +248,8 @@ namespace LadeSkab_Test
 
             _mockDisplay.DidNotReceive().Show(Arg.Any<string>());
         }
+
+        #endregion
     }
 
     [TestFixture]
