@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
 using LadeSkab;
+using NSubstitute.Core.Arguments;
 using NSubstitute.ReceivedExtensions;
 
 namespace LadeSkab_Test
@@ -133,18 +134,15 @@ namespace LadeSkab_Test
     {
         
         private ChargeControl _uut;
-        private IDisplay _mockDisplay;
         private IUSBCharger _mockCharger;
 
         [SetUp]
         public void SetUp()
         {
-            _mockDisplay = Substitute.For<Display>();
             _mockCharger = Substitute.For<USBCharger>();
 
             _uut = new ChargeControl
             {
-                Display = _mockDisplay,
                 Charger = _mockCharger
             };
 
@@ -184,8 +182,6 @@ namespace LadeSkab_Test
             _uut.StartCharge();
             _mockCharger.DidNotReceive().StartCharge();
         }
-
-
 
     }
 
