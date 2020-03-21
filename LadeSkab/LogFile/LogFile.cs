@@ -32,15 +32,8 @@ namespace LadeSkab
 
         public void DeleteFile()
         {
-            try
-            {
+            if(FileExist())
                 File.Delete(path);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
         }
 
         public bool FileExist()

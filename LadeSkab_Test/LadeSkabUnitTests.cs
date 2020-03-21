@@ -613,15 +613,15 @@ namespace LadeSkab_Test
         [SetUp]
         public void Setup()
         {
-            _uut = new LogFile("testFile");
-            _uut.CreateFile();
+            _uut = new LogFile("testFile.txt");
+            _uut.CreateFile(); //Denne setup sikrer at filen kun eksistere i testen
         }
 
         [TearDown]
         public void TearDown()
         {
             if(_uut.FileExist())
-                _uut.DeleteFile();
+                _uut.DeleteFile(); //Denne teardown sikrer at filen kun eksisterer i testen
         }
 
         [Test]
