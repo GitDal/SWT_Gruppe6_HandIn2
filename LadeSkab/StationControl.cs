@@ -147,8 +147,6 @@ namespace LadeSkab
                 case DoorEventArgs.DoorState.Open:
                     DoorOpened();
                     break;
-                default:
-                    break;
             }
         }
 
