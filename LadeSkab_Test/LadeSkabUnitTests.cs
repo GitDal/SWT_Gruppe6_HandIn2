@@ -109,7 +109,7 @@ namespace LadeSkab_Test
             _doorSubject.DoorStatusChanged +=
                 Raise.EventWith(new DoorEventArgs {DoorStatus = DoorEventArgs.DoorState.Open});
 
-            _mockDisplay.Received().Show(Arg.Any<string>());
+            _mockDisplay.Received().ShowConnectDevice();
         }
 
 
@@ -134,7 +134,7 @@ namespace LadeSkab_Test
             _doorSubject.DoorStatusChanged +=
                 Raise.EventWith(new DoorEventArgs { DoorStatus = DoorEventArgs.DoorState.Closed });
 
-            _mockDisplay.Received().Show(Arg.Any<string>());
+            _mockDisplay.Received().ShowProvideId();
         }
 
         [Test]
