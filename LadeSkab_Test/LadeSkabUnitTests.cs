@@ -151,10 +151,28 @@ namespace LadeSkab_Test
 
         //Denne test er nok forkert - Jeg skal egentlig bare kunne teste for at IsConnected returnere Connected fra charger, om den så er true eller false
         [Test]
-        public void IsConnected_NoFunctionCalled_ReturnsFalse()
+        public void IsConnected_NoFunctionCalled_ReturnsSameValueAsProperty()
         {
-            Assert.That(_uut.IsConnected(),Is.False);
+            Assert.That(_uut.IsConnected(),Is.EqualTo(_mockCharger.Connected));
         }
+
+        [Test]
+        public void TESTUNDERWAYNEEDSNAME()
+        {
+            //_mockCharger.Connected.Returns(true);
+            //Assert.That(_uut.IsConnected(), Is.EqualTo(_mockCharger.Connected));
+
+
+
+            /*
+            _mockCharger.Connected.Returns(true);
+
+            var result = _uut.IsConnected();
+
+            Assert.That(result,Is.EqualTo(_mockCharger.Connected));
+            */
+        }
+
 
         [Test]
         public void StartCharge_ChargerReceivesStartCall()
