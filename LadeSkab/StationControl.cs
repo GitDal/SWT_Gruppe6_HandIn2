@@ -59,6 +59,7 @@ namespace LadeSkab
         }
         public IIdentificationKeyReader<int> Reader
         {
+            private get { return _reader; }
             set
             {
                 _reader = value;
@@ -95,10 +96,10 @@ namespace LadeSkab
                     // Check for ladeforbindelse
                     if (ChargeControl.IsConnected())
                     {
-                        _door.LockDoor();
+                        Door.LockDoor();
                         ChargeControl.StartCharge();
                         _oldId = id;
-                        _logger.LogDoorLocked(id);
+                        Logger.LogDoorLocked(id);
 
                         Display.ShowOccupied();
                         _state = LadeskabState.Locked;
@@ -119,8 +120,8 @@ namespace LadeSkab
                     if (id == _oldId)
                     {
                         ChargeControl.StopCharge();
-                        _door.UnlockDoor();
-                        _logger.LogDoorUnlocked(id);
+                        Door.UnlockDoor();
+                        Logger.LogDoorUnlocked(id);
 
                         Display.ShowRemoveDevice();
                         _state = LadeskabState.Available;
