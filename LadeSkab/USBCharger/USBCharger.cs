@@ -64,7 +64,11 @@ namespace LadeSkab
 
         public void SimulateConnected(bool connected)
         {
-            Connected = connected;
+            if (Connected != connected)
+            {
+                Connected = connected;
+                Console.WriteLine((connected ? "Device connected." : "Device disconnected."));
+            }
         }
 
         public void SimulateOverload(bool overload)
