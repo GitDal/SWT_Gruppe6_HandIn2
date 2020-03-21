@@ -12,50 +12,41 @@ namespace LadeSkab
         private string path;
         private string fileName;
 
+        public StreamWriter sw { get; set; }
+
         public LogFile(string filename)
         {
             fileName = filename;
             path = Directory.GetCurrentDirectory() + @"\" + fileName;
         }
+        
+
+        public void CreateFile()
+        {
+            sw = File.CreateText(path);
+            sw.WriteLine("Logging of door openings and closings");
+            sw.Close();
+        }
+
+        public void AppendTextToFile(string text)
+        {
+            sw = File.AppendText(path);
+            sw.WriteLine(text);
+            sw.Close();
+        }
 
         public void LogDoorLocked(int id)
         {
-
-            if (!File.Exists(path))
-            {
-                using (StreamWriter logWriterInit = File.CreateText(path))
-                {
-                    logWriterInit.WriteLine($"Logging of door openings and closings");
-                    logWriterInit.WriteLine($"ID: {id} - Locked door at: {DateTime.Now.ToString()}");
-                }
-            }
-            else
-            {
-                using (StreamWriter logWriter = File.AppendText(path))
-                {
-                    logWriter.WriteLine($"ID: {id} - Locked door at: {DateTime.Now.ToString()}");
-                }
-            }
-
+            if(!File.Exists(path))
+                CreateFile();
+            AppendTextToFile($"ID: {id} - Locked door at: {DateTime.Now.ToString()}");
         }
 
         public void LogDoorUnlocked(int id)
         {
             if (!File.Exists(path))
-            {
-                using (StreamWriter logWriterInit = File.CreateText(path))
-                {
-                    logWriterInit.WriteLine($"Logging of door openings and closings");
-                    logWriterInit.WriteLine($"ID: {id} - Unlocked door at: {DateTime.Now.ToString()}");
-                }
-            }
-            else
-            {
-                using (StreamWriter logWriter = File.AppendText(path))
-                {
-                    logWriter.WriteLine($"ID: {id} - Unlocked door at: {DateTime.Now.ToString()}");
-                }
-            }
+                CreateFile();
+            AppendTextToFile($"ID: {id} - Unlocked door at: {DateTime.Now.ToString()}");
         }
     }
 }
