@@ -46,7 +46,6 @@ namespace LadeSkab
         // Start charging
         public void StartCharge()
         {
-
             Charger.StartCharge();
         }
 
@@ -67,7 +66,7 @@ namespace LadeSkab
             {
                 if (_chargingState != ChargingState.Charged)
                 {
-                    Display.Show("Device fully charged");
+                    Display.Show("Telefon er fuldt opladt");
                     _chargingState = ChargingState.Charged;
                 }
             }
@@ -75,7 +74,7 @@ namespace LadeSkab
             {
                 if (_chargingState != ChargingState.Charging)
                 {
-                    Display.Show("Device charging");
+                    Display.Show("Telefon Oplades");
                     _chargingState = ChargingState.Charging;
                 }
             }
@@ -84,7 +83,7 @@ namespace LadeSkab
                 if (_chargingState != ChargingState.Overload)
                 {
                     StopCharge();
-                    Display.Show("Error during charging - Remove Device immediately");
+                    Display.Show("Fejl i opladningen - Frakoble telefon øjeblikkeligt");
                     _chargingState = ChargingState.Overload;
                 }
             }
