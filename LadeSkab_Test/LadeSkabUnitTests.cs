@@ -303,6 +303,7 @@ namespace LadeSkab_Test
             _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 0 });
             _mockDisplay.DidNotReceive().ShowDeviceCharging();
         }
+
         [Test]
         public void CurrentChanged_DisconnectedValue_NothingHappensFullyCharged()
         {
@@ -316,10 +317,16 @@ namespace LadeSkab_Test
             _mockDisplay.DidNotReceive().ShowOverload();
         }
 
-        [Test]
-        public void CurrentChanged_ChargingValue_DisplayShowsCharging()
+        [TestCase(5.00001)]
+        [TestCase(6)]
+        [TestCase(10)]
+        [TestCase(100)]
+        [TestCase(400)]
+        [TestCase(499)]
+        [TestCase(500)]
+        public void CurrentChanged_ChargingValue_DisplayShowsCharging(double currentValue)
         {
-            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() {Current = 250});
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() {Current = currentValue });
             _mockDisplay.Received(1).ShowDeviceCharging();
         }
 
@@ -331,10 +338,16 @@ namespace LadeSkab_Test
             _mockDisplay.Received(1).ShowDeviceCharging();
         }
 
-        [Test]
-        public void CurrentChanged_FullyChargedValue_DisplayShowsFullyCharged()
+        [TestCase(0.0001)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(4.999)]
+        [TestCase(5)]
+        public void CurrentChanged_FullyChargedValue_DisplayShowsFullyCharged(double currentValue)
         {
-            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 3 });
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = currentValue });
             _mockDisplay.Received(1).ShowFullyCharged();
         }
 
@@ -346,10 +359,13 @@ namespace LadeSkab_Test
             _mockDisplay.Received(1).ShowFullyCharged();
         }
 
-        [Test]
-        public void CurrentChanged_OverloadValue_DisplayShowsOverload()
+        [TestCase(501)]
+        [TestCase(550)]
+        [TestCase(600)]
+        [TestCase(1000)]
+        public void CurrentChanged_OverloadValue_DisplayShowsOverload(double currentValue)
         {
-            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 750 });
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = currentValue });
             _mockDisplay.Received(1).ShowOverload();
         }
 
