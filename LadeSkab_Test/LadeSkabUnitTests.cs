@@ -704,6 +704,198 @@ namespace LadeSkab_Test
 
             Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + msg + "'\r\n"));
         }
+
+        [Test]
+        public void ShowOverload_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowOverload();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Error during charging - Remove device immediately" + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowConnectDevice_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowConnectDevice();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Please connect device." + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowConnectionError_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowConnectionError();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Connection Error: Your device is not properly connected. Try again." + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowFullyCharged_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowFullyCharged();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Phone Fully Charged" + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowDeviceCharging_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowDeviceCharging();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Phone Charging" + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowOccupied_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowOccupied();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Occupied: Door is locked and your device is charging.Use your RFID tag to unlock door." + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowProvideId_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowProvideId();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Provide RFID to lock." + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowRemoveDevice_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowRemoveDevice();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Remove device." + "'\r\n"));
+        }
+
+        [Test]
+        public void ShowWrongId_Called_MessageIsWrittenCorrectlyOnScreen()
+        {
+            _uut.ShowWrongId();
+
+            Assert.That(_output.ToString(), Is.EqualTo("On Display: '" + "Wrong RFID tag. Use your RFID tag to try again." + "'\r\n"));
+        }
+
+
+    }
+
+
+    [TestFixture]
+    public class LogFileUnitTests
+    {
+        private LogFile _uut;
+        private StringWriter _output;
+
+        [SetUp]
+        public void Setup()
+        {
+            _uut = new LogFile("testFile.txt");
+            _uut.CreateFile(); //Denne setup sikrer at filen kun eksistere i testen
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _uut.DeleteFile(); //Denne teardown sikrer at filen kun eksisterer i testen
+        }
+
+        [Test]
+        public void FileExists_CreateFileCalled_ReturnsTrue()
+        {
+            Assert.That(_uut.FileExist(),Is.True);
+        }
+
+        [Test]
+        public void FileExists_DeleteFileCalled_ReturnsFalse()
+        {
+            _uut.DeleteFile();
+            Assert.That(_uut.FileExist(), Is.False);
+        }
+
+        [Test]
+        public void CreateFile_ReadLastMessageFromFile_ReturnsExpectedMessage()
+        {
+            var lastMessage = File.ReadLines(_uut.path).Last();
+            //Assert
+            Assert.That(lastMessage,Is.EqualTo(_uut.LastMessage));
+        }
+
+        [Test]
+        public void AppendText_ReadLastMessageFromFile_ReturnsExpectedMessage()
+        {
+            //Act
+            var text = "SomeText";
+            _uut.AppendTextToFile(text);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            //Assert
+            Assert.That(lastMessage, Is.EqualTo(text));
+        }
+
+        [Test]
+        public void LogDoorLocked_RunWhenNoFileExists_CreatesFile()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorLocked(1);
+
+            Assert.That(_uut.FileExist, Is.True);
+        }
+
+        [Test]
+        public void LogDoorLocked_RunWhenNoFileExists_AppendsText()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorLocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+        [Test]
+        public void LogDoorLocked_RunWhenFileExists_AppendsText()
+        {
+            _uut.LogDoorLocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+
+
+        [Test]
+        public void LogDoorUnlocked_RunWhenNoFileExists_CreatesFile()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorUnlocked(1);
+
+            Assert.That(_uut.FileExist, Is.True);
+        }
+
+        [Test]
+        public void LogDoorUnlocked_RunWhenNoFileExists_AppendsText()
+        {
+            _uut.DeleteFile();
+
+            _uut.LogDoorUnlocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+        [Test]
+        public void LogDoorUnlocked_RunWhenFileExists_AppendsText()
+        {
+            _uut.LogDoorUnlocked(1);
+            var lastMessage = File.ReadLines(_uut.path).Last();
+
+            Assert.That(lastMessage, Is.EqualTo(_uut.LastMessage));
+        }
+
+
     }
 
 
