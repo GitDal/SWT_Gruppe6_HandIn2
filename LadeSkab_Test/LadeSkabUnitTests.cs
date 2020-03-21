@@ -195,11 +195,67 @@ namespace LadeSkab_Test
         }
 
         [Test]
-        public void TESTTEST()
+        public void CurrentChanged_DisconnectedValue_NothingHappensCharging()
         {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 0 });
+            _mockDisplay.DidNotReceive().ShowDeviceCharging();
+        }
+        [Test]
+        public void CurrentChanged_DisconnectedValue_NothingHappensFullyCharged()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 0 });
+            _mockDisplay.DidNotReceive().ShowFullyCharged();
+        }
+        [Test]
+        public void CurrentChanged_DisconnectedValue_NothingHappensOverload()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 0 });
+            _mockDisplay.DidNotReceive().ShowOverload();
+        }
 
-            _mockCharger.CurrentValueEvent
+        [Test]
+        public void CurrentChanged_ChargingValue_DisplayShowsCharging()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() {Current = 250});
+            _mockDisplay.Received(1).ShowDeviceCharging();
+        }
 
+        [Test]
+        public void CurrentChanged_ChargingValueTwoTimes_DisplayShowsChargingOnlyOnce()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 250 });
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 400 });
+            _mockDisplay.Received(1).ShowDeviceCharging();
+        }
+
+        [Test]
+        public void CurrentChanged_FullyChargedValue_DisplayShowsFullyCharged()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 3 });
+            _mockDisplay.Received(1).ShowFullyCharged();
+        }
+
+        [Test]
+        public void CurrentChanged_FullyChargedValueTwoTimes_DisplayShowsFullyChargedOnlyOnce()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 2 });
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 4 });
+            _mockDisplay.Received(1).ShowFullyCharged();
+        }
+
+        [Test]
+        public void CurrentChanged_OverloadValue_DisplayShowsOverload()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 750 });
+            _mockDisplay.Received(1).ShowOverload();
+        }
+
+        [Test]
+        public void CurrentChanged_OverloadValueTwoTimes_DisplayShowsOverloadOnlyOnce()
+        {
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 700 });
+            _mockCharger.CurrentValueEvent += Raise.EventWith(new CurrentEventArgs() { Current = 750 });
+            _mockDisplay.Received(1).ShowOverload();
         }
 
 
