@@ -9,5 +9,14 @@ namespace LadeSkab
     public interface IDisplay
     {
         void Show(string msg);
+        void ShowConnectDevice();
+        void ShowRemoveDevice();
+        void ShowProvideId();
+        void ShowWrongId();
+        void ShowFullyCharger();
+        void ShowDeviceCharging();
+        void ShowOverload();
+        void ShowConnectionError();
+        void ShowOccupied();
     }
 }
