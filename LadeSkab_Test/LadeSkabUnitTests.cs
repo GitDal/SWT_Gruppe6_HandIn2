@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using NSubstitute;
 using LadeSkab;
+using NSubstitute.ReceivedExtensions;
 
 namespace LadeSkab_Test
 {
@@ -130,17 +131,59 @@ namespace LadeSkab_Test
     [TestFixture]
     public class ChargeControlUnitTests
     {
-        /*
+        
         private ChargeControl _uut;
+        private IDisplay _mockDisplay;
+        private IUSBCharger _mockCharger;
 
         [SetUp]
         public void SetUp()
         {
-            _uut = new ChargeControl();
+            _mockDisplay = Substitute.For<Display>();
+            _mockCharger = Substitute.For<USBCharger>();
+
+            _uut = new ChargeControl
+            {
+                Display = _mockDisplay,
+                Charger = _mockCharger
+            };
+
+            
         }
 
-        */
-        //public class 
+        [Test]
+        public void IsConnected_NoFunctionCalled_IsNotConnected()
+        {
+            Assert.That(_uut.IsConnected(),Is.False);
+        }
+
+        [Test]
+        public void StartCharge_ChargerReceivesStartCall()
+        {
+            _uut.StartCharge();
+            _mockCharger.Received(1).StartCharge();
+        }
+
+        [Test]
+        public void StartCharge_ChargerReceivesNoStopCall()
+        {
+            _uut.StartCharge();
+            _mockCharger.DidNotReceive().StopCharge();
+        }
+
+        [Test]
+        public void StopCharge_ChargerReceivesStopCall()
+        {
+            _uut.StopCharge();
+            _mockCharger.Received(1).StopCharge();
+        }
+
+        [Test]
+        public void StartCharge_ChargerReceivesNoStartCall()
+        {
+            _uut.StartCharge();
+            _mockCharger.DidNotReceive().StartCharge();
+        }
 
 
 
