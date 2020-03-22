@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>600</x>
-      <y>72</y>
+      <x>544</x>
+      <y>64</y>
       <w>264</w>
       <h>136</h>
     </coordinates>
@@ -18,29 +18,38 @@
 + DoorStatusChanged: event
 + LockDoor(): void
 + UnlockDoor(): void
-+ OpenDoor(): void
-+ CloseDoor(): void</panel_attributes>
++ OnDoorOpen(): void
++ OnDoorClose(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>504</x>
-      <y>680</y>
-      <w>128</w>
-      <h>56</h>
+      <x>416</x>
+      <y>688</y>
+      <w>176</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>*Display*
 --
-+ Show(string): void</panel_attributes>
++ Show(string): void
++ ShowConnectDevice(): void
++ ShowRemoveDevice(): void
++ ShowProvideId(): void
++ ShowWrongId(): void
++ ShowFullyCharged(): void
++ ShowDeviceCharging(): void
++ ShowOverload(): void
++ ShowConnectionError(): void
++ ShowOccupied(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>104</x>
-      <y>408</y>
-      <w>168</w>
+      <x>48</x>
+      <y>368</y>
+      <w>160</w>
       <h>88</h>
     </coordinates>
     <panel_attributes>*RFIDReader*
@@ -54,8 +63,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>472</x>
-      <y>424</y>
+      <x>416</x>
+      <y>360</y>
       <w>176</w>
       <h>88</h>
     </coordinates>
@@ -72,12 +81,16 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>712</x>
-      <y>560</y>
-      <w>168</w>
-      <h>88</h>
+      <x>624</x>
+      <y>496</y>
+      <w>208</w>
+      <h>112</h>
     </coordinates>
     <panel_attributes>*ChargeControl*
+--
+- _chargingState: ChargingState
+- HandleCurrentChangedEvent
+            (object, CurrentEventArgs): void
 --
 + IsConnected(): bool
 + StartCharge(): void
@@ -88,69 +101,88 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>256</x>
-      <y>680</y>
-      <w>192</w>
-      <h>56</h>
+      <x>168</x>
+      <y>624</y>
+      <w>208</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>*LogFile*
 --
 + LogDoorLocked(id: string): void
-+ LogDoorUnlocked(id: string): void</panel_attributes>
++ LogDoorUnlocked(id: string): void
++ CreateFile(): void
++ DeleteFile(): void
++ FileExists(): bool
++ AppendTextToFile(text: string): void
+
+*&lt;&lt;properties&gt;&gt;*
++ path: string
++ fileName: string
++ LastMessage: string
++ sw: StreamWriter</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>264</x>
-      <y>464</y>
-      <w>224</w>
-      <h>24</h>
+      <x>200</x>
+      <y>296</y>
+      <w>232</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;260.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;270.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>416</x>
-      <y>504</y>
-      <w>72</w>
+      <x>352</x>
+      <y>440</y>
+      <w>80</w>
       <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;70.0;70.0;10.0</additional_attributes>
+    <additional_attributes>10.0;70.0;80.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>640</x>
-      <y>464</y>
-      <w>88</w>
+      <x>584</x>
+      <y>400</y>
+      <w>56</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>90.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>504</x>
-      <y>560</y>
-      <w>128</w>
-      <h>56</h>
+      <x>416</x>
+      <y>496</y>
+      <w>176</w>
+      <h>168</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
 *IDisplay*
 --
-+ Show(string): void</panel_attributes>
++ Show(string): void
++ ShowConnectDevice(): void
++ ShowRemoveDevice(): void
++ ShowProvideId(): void
++ ShowWrongId(): void
++ ShowFullyCharged(): void
++ ShowDeviceCharging(): void
++ ShowOverload(): void
++ ShowConnectionError(): void
++ ShowOccupied(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>256</x>
-      <y>560</y>
+      <x>168</x>
+      <y>496</y>
       <w>192</w>
       <h>72</h>
     </coordinates>
@@ -164,19 +196,19 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>488</x>
-      <y>320</y>
+      <x>432</x>
+      <y>312</y>
       <w>24</w>
-      <h>120</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>712</x>
-      <y>424</y>
+      <x>624</x>
+      <y>360</y>
       <w>168</w>
       <h>88</h>
     </coordinates>
@@ -192,30 +224,30 @@
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>560</x>
-      <y>608</y>
+      <x>496</x>
+      <y>656</y>
       <w>24</w>
-      <h>88</h>
+      <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>336</x>
-      <y>624</y>
+      <x>248</x>
+      <y>560</y>
       <w>24</w>
-      <h>72</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>784</x>
-      <y>504</y>
+      <x>696</x>
+      <y>440</y>
       <w>24</w>
       <h>72</h>
     </coordinates>
@@ -225,12 +257,13 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>376</x>
-      <y>232</y>
+      <x>320</x>
+      <y>216</y>
       <w>176</w>
-      <h>96</h>
+      <h>104</h>
     </coordinates>
-    <panel_attributes>*IDoor*
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+*IDoor*
 --
 + DoorStatusChanged: event
 + LockDoor(): void
@@ -242,8 +275,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>600</x>
-      <y>248</y>
+      <x>544</x>
+      <y>232</y>
       <w>192</w>
       <h>56</h>
     </coordinates>
@@ -257,23 +290,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>904</x>
-      <y>240</y>
-      <w>128</w>
-      <h>64</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
-*DoorState*
---
-Open
-Closed</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>904</x>
-      <y>152</y>
+      <x>848</x>
+      <y>144</y>
       <w>128</w>
       <h>64</h>
     </coordinates>
@@ -287,30 +305,30 @@ Closed</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>784</x>
-      <y>272</y>
-      <w>136</w>
-      <h>24</h>
+      <x>728</x>
+      <y>200</y>
+      <w>192</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>150.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>220.0;10.0;220.0;80.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>544</x>
-      <y>200</y>
+      <x>488</x>
+      <y>192</y>
       <w>72</w>
-      <h>48</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;40.0;70.0;10.0</additional_attributes>
+    <additional_attributes>10.0;30.0;70.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>544</x>
-      <y>272</y>
+      <x>488</x>
+      <y>256</y>
       <w>72</w>
       <h>24</h>
     </coordinates>
@@ -320,8 +338,8 @@ Closed</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>664</x>
-      <y>200</y>
+      <x>608</x>
+      <y>192</y>
       <w>24</w>
       <h>24</h>
     </coordinates>
@@ -331,8 +349,8 @@ Closed</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>856</x>
-      <y>176</y>
+      <x>800</x>
+      <y>168</y>
       <w>64</w>
       <h>24</h>
     </coordinates>
@@ -342,29 +360,29 @@ Closed</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>616</x>
-      <y>296</y>
+      <x>560</x>
+      <y>280</y>
       <w>24</w>
-      <h>144</h>
+      <h>96</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;160.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>688</x>
-      <y>200</y>
+      <x>632</x>
+      <y>192</y>
       <w>24</w>
-      <h>64</h>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>904</x>
+      <x>848</x>
       <y>64</y>
       <w>128</w>
       <h>64</h>
@@ -379,7 +397,7 @@ Unlocked</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>856</x>
+      <x>800</x>
       <y>88</y>
       <w>64</w>
       <h>24</h>
@@ -390,17 +408,19 @@ Unlocked</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1032</x>
-      <y>424</y>
+      <x>984</x>
+      <y>360</y>
       <w>184</w>
-      <h>88</h>
+      <h>104</h>
     </coordinates>
     <panel_attributes>&lt;&lt;interface&gt;&gt;
-*ICharger*
+*IUSBCharger*
 --
-+ Connect(): void
-+ Disconnect(): void
++ CurrentValueEvent: event
 + CurrentValue: double &lt;&lt;property&gt;&gt;
++ Connected: bool &lt;&lt;property&gt;&gt;
++ StartCharge(): void
++ StopCharge(): void
 
 </panel_attributes>
     <additional_attributes/>
@@ -408,8 +428,8 @@ Unlocked</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>880</x>
-      <y>680</y>
+      <x>824</x>
+      <y>704</y>
       <w>152</w>
       <h>56</h>
     </coordinates>
@@ -422,47 +442,57 @@ Unlocked</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1032</x>
-      <y>560</y>
-      <w>184</w>
-      <h>88</h>
+      <x>984</x>
+      <y>496</y>
+      <w>280</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>*USBCharger*
 --
-+ Connect(): void
-+ Disconnect(): void
+- _overload: bool
+- _charging: bool
+- _timer: System.Timers.Timer
+- _ticksSinceStart: int
+- TimerOnElapsed(object, ElapsedEventArgs): void
+- OnNewCurrent(): void
+--
++ CurrentValueEvent: event
 + CurrentValue: double &lt;&lt;property&gt;&gt;
-
++ Connected: bool &lt;&lt;property&gt;&gt;
++ StartCharge(): void
++ StopCharge(): void
++ SimulateConnected(connected: bool): void
++ SimulateOverload(overload: bool): void
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>872</x>
-      <y>440</y>
-      <w>176</w>
+      <x>784</x>
+      <y>376</y>
+      <w>216</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>200.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>250.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1112</x>
-      <y>504</y>
+      <x>1064</x>
+      <y>456</y>
       <w>24</w>
-      <h>72</h>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>560</x>
-      <y>504</y>
+      <x>504</x>
+      <y>440</y>
       <w>24</w>
       <h>72</h>
     </coordinates>
@@ -472,69 +502,69 @@ Unlocked</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>624</x>
-      <y>576</y>
-      <w>104</w>
+      <x>584</x>
+      <y>512</y>
+      <w>56</w>
       <h>24</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>872</x>
-      <y>472</y>
-      <w>88</w>
-      <h>224</h>
+      <x>784</x>
+      <y>408</y>
+      <w>120</w>
+      <h>312</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>90.0;260.0;90.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>130.0;370.0;130.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>960</x>
-      <y>472</y>
-      <w>88</w>
-      <h>224</h>
+      <x>904</x>
+      <y>408</y>
+      <w>96</w>
+      <h>312</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;260.0;10.0;10.0;90.0;10.0</additional_attributes>
+    <additional_attributes>10.0;370.0;10.0;10.0;100.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>872</x>
-      <y>600</y>
-      <w>64</w>
-      <h>96</h>
+      <x>824</x>
+      <y>536</y>
+      <w>56</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>60.0;100.0;60.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>50.0;210.0;50.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>984</x>
-      <y>600</y>
-      <w>64</w>
-      <h>96</h>
+      <x>928</x>
+      <y>536</y>
+      <w>72</w>
+      <h>184</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;100.0;10.0;10.0;60.0;10.0</additional_attributes>
+    <additional_attributes>10.0;210.0;10.0;10.0;70.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>104</x>
-      <y>280</y>
+      <x>48</x>
+      <y>248</y>
       <w>192</w>
       <h>88</h>
     </coordinates>
     <panel_attributes>template=TIdType
+&lt;&lt;interface&gt;&gt;
 *IIdentificationKeyReader*
---
 --
 + OnIdRead(id: TIdType): void
 + IdDetectedEvent: event</panel_attributes>
@@ -543,12 +573,79 @@ Unlocked</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>176</x>
-      <y>360</y>
+      <x>120</x>
+      <y>328</y>
       <w>24</w>
-      <h>64</h>
+      <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>1200</x>
+      <y>376</y>
+      <w>192</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>*&lt;&lt;constants&gt;&gt;*
+- MaxCurrent = 500 mA
+- FullyChargedCurrent = 2.5 mA
+- OverloadCurrent = 750 mA
+- ChargeTimeMinutes = 20 minutes
+- CurrentTickInterval = 250 ms</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1176</x>
+      <y>456</y>
+      <w>40</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;50.0;30.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>640</x>
+      <y>664</y>
+      <w>128</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+*ChargingState*
+--
+Charging
+Charged
+Overload
+NoConnection</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>696</x>
+      <y>600</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLFrame</id>
+    <coordinates>
+      <x>32</x>
+      <y>48</y>
+      <w>1376</w>
+      <h>816</h>
+    </coordinates>
+    <panel_attributes>*cd*
+LadeSkab</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
